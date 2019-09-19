@@ -22,14 +22,13 @@ fn model(app: &App) -> Model {
 fn view(app: &App, _model: &Model, frame: &Frame) {
     let draw = app.draw();
 
-    draw.rect().x_y(600.0, 100.0).w_h(100.0, 15.0);
-    draw.rect().x_y(600.0, 115.0).w_h(15.0, 100.0);
-    draw.rect().x_y(700.0, 115.0).w_h(15.0, 100.0);
-
-    draw.rect().x_y(600.0, 120.0).w_h(100.0, 15.0);
-    draw.rect().x_y(600.0, 135.0).w_h(15.0, 100.0);
-    draw.rect().x_y(700.0, 135.0).w_h(15.0, 100.0);
-    draw.rect().x_y(600.0, 140.0).w_h(100.0, 15.0);
+    draw.rect().x_y(100.0, 100.0).w_h(100.0, 15.0).color(WHITE);
+    draw.rect().x_y(100.0, 115.0).w_h(15.0, 100.0).color(WHITE);
+    draw.rect().x_y(200.0, 115.0).w_h(15.0, 100.0).color(WHITE);
+    draw.rect().x_y(100.0, 120.0).w_h(100.0, 15.0).color(WHITE);
+    draw.rect().x_y(100.0, 135.0).w_h(15.0, 100.0).color(WHITE);
+    draw.rect().x_y(200.0, 135.0).w_h(15.0, 100.0).color(WHITE);
+    draw.rect().x_y(100.0, 140.0).w_h(100.0, 15.0).color(WHITE);
 
     draw.to_frame(app, frame).unwrap();
 }
