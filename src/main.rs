@@ -15,6 +15,45 @@ struct Model {
     _window: WindowId,
 }
 
+struct Node {
+    bias: f32,
+    weights: Vec<f32>,
+}
+
+impl Node {
+    pub fn new(number_of_weights: usize) -> Node {
+        // Should probably be random.
+        Node {bias: 0.0, weights: vec![0.0; number_of_weights]}
+    }
+
+    pub fn calculate(&self, previous_layer:&Vec<f32>) -> f32 {
+        let mut value = self.bias;
+        let previous_layer_len = previous_layer.len();
+        if self.weights.len() != previous_layer_len {
+            panic!("The number of weights ({}) doesn't match the number of values ({})", self.weights.len(), previous_layer_len);
+        }
+        for pos_num in 0..previous_layer_len {
+            value += previous_layer[pos_num] * self.weights[pos_num];
+        }
+        value
+    }
+}
+
+struct Layer {
+    nodes: Vec<Node>,
+}
+
+impl Layer {
+    pub fn calculate(&self, previous_layer:&Vec<f32>) -> Vec<f32> {
+        let mut values = Vec::new();
+        let node_count = self.nodes.len();
+        for node_num in 0..node_count {
+            values.push(self.nodes[node_num].calculate(previous_layer));
+        }
+        values
+    }
+}
+
 fn model(app: &App) -> Model {
     let _window = app
     .new_window()
