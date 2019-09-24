@@ -1,8 +1,0 @@
-[package]
-name = "simple_nn"
-version = "0.1.0"
-authors = ["Toke Horn Brorholt <etok414@gmail.com>"]
-edition = "2018"
-
-[dependencies]
-nannou = { git = "https://github.com/nannou-org/nannou", branch = "master" }
