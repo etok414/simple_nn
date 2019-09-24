@@ -27,6 +27,7 @@ fn model(app: &App) -> Model {
     .build()
     .unwrap();
 
+    // The numbers 0-15 in binary
     let training_data_in: [[f32; 4]; 16] = [
         [0.0, 0.0, 0.0, 0.0],
         [0.0, 0.0, 0.0, 1.0],
@@ -46,6 +47,7 @@ fn model(app: &App) -> Model {
         [1.0, 1.0, 1.0, 1.0],
     ] ;
 
+    // The numbers 0-15 as 7-segment display: "[1   8]" [B, C,     A, B, C, D, E, F, G]
     let training_data_out: [[f32; 9]; 16] = [
         [0.0, 0.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.0],
         [0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0],
@@ -84,7 +86,6 @@ fn update(_app: &App, model: &mut Model, _update: Update) {
     }
 
     sleep(time::Duration::new(1, 0));
-
 }
 
 
@@ -109,29 +110,32 @@ fn draw_results(model: &Model, draw: &nannou::app::Draw) {
     draw.ellipse().x_y(-300.0, 123.0).radius(10.0).color(rgb(tdi[2], tdi[2], tdi[2]));
     draw.ellipse().x_y(-300.0, 192.0).radius(10.0).color(rgb(tdi[3], tdi[3], tdi[3]));
 
-    draw.ellipse().x_y(-180.0, 5.0).radius(10.0).color(rgb(1.0, 1.0, 1.0)); // Layer 1
-    draw.ellipse().x_y(-180.0, 32.0).radius(10.0).color(rgb(1.0, 1.0, 1.0));
-    draw.ellipse().x_y(-180.0, 59.0).radius(10.0).color(rgb(1.0, 1.0, 1.0));
-    draw.ellipse().x_y(-180.0, 86.0).radius(10.0).color(rgb(1.0, 1.0, 1.0));
-    draw.ellipse().x_y(-180.0, 112.0).radius(10.0).color(rgb(1.0, 1.0, 1.0));
-    draw.ellipse().x_y(-180.0, 138.0).radius(10.0).color(rgb(1.0, 1.0, 1.0));
-    draw.ellipse().x_y(-180.0, 165.0).radius(10.0).color(rgb(1.0, 1.0, 1.0));
-    draw.ellipse().x_y(-180.0, 192.0).radius(10.0).color(rgb(1.0, 1.0, 1.0));
+    draw.ellipse().x_y(-180.0, 5.0).radius(6.0).color(rgb(1.0, 1.0, 1.0)); // Layer 1
+    draw.ellipse().x_y(-180.0, 32.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
+    draw.ellipse().x_y(-180.0, 59.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
+    draw.ellipse().x_y(-180.0, 86.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
+    draw.ellipse().x_y(-180.0, 112.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
+    draw.ellipse().x_y(-180.0, 138.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
+    draw.ellipse().x_y(-180.0, 165.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
+    draw.ellipse().x_y(-180.0, 192.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
 
-    draw.ellipse().x_y(-180.0, 5.0).radius(10.0).color(rgb(1.0, 1.0, 1.0)); // Layer 2
-    draw.ellipse().x_y(-180.0, 32.0).radius(10.0).color(rgb(1.0, 1.0, 1.0));
-    draw.ellipse().x_y(-180.0, 59.0).radius(10.0).color(rgb(1.0, 1.0, 1.0));
-    draw.ellipse().x_y(-180.0, 86.0).radius(10.0).color(rgb(1.0, 1.0, 1.0));
-    draw.ellipse().x_y(-180.0, 112.0).radius(10.0).color(rgb(1.0, 1.0, 1.0));
-    draw.ellipse().x_y(-180.0, 138.0).radius(10.0).color(rgb(1.0, 1.0, 1.0));
-    draw.ellipse().x_y(-180.0, 165.0).radius(10.0).color(rgb(1.0, 1.0, 1.0));
-    draw.ellipse().x_y(-180.0, 192.0).radius(10.0).color(rgb(1.0, 1.0, 1.0));
+    draw.ellipse().x_y(-180.0, 5.0).radius(6.0).color(rgb(1.0, 1.0, 1.0)); // Layer 2
+    draw.ellipse().x_y(-180.0, 32.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
+    draw.ellipse().x_y(-180.0, 59.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
+    draw.ellipse().x_y(-180.0, 86.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
+    draw.ellipse().x_y(-180.0, 112.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
+    draw.ellipse().x_y(-180.0, 138.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
+    draw.ellipse().x_y(-180.0, 165.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
+    draw.ellipse().x_y(-180.0, 192.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
 
     draw.rect().x_y(50.0, 50.0).w_h(16.0, 84.0).color(rgb(tdu[0], tdu[0], tdu[0])); // B
     draw.rect().x_y(50.0, 150.0).w_h(16.0, 84.0).color(rgb(tdu[1], tdu[1], tdu[1])); // C
 
     draw.rect().x_y(135.0, 192.0).w_h(44.0, 16.0).color(rgb(tdu[2], tdu[2], tdu[2])); // A
+    draw.tri().points((157.0, 200.0), (165.0, 200.0), (16.0, 0.0)).color(rgb(tdu[2], tdu[2], tdu[2])); // A corner
+    draw.tri().points((113.0, 200.0), (105.0, 200.0), (113.0, 192.0)).color(rgb(tdu[2], tdu[2], tdu[2])); // A corner
     draw.rect().x_y(165.0, 150.0).w_h(16.0, 84.0).color(rgb(tdu[3], tdu[3], tdu[3])); // B
+    draw.tri().points((157.0, 192.0), (173.0, 192.0), (172.0, 200.0)).color(rgb(tdu[3], tdu[3], tdu[3])); // B corner
     draw.rect().x_y(165.0, 50.0).w_h(16.0, 84.0).color(rgb(tdu[4], tdu[4], tdu[4])); // C
     draw.rect().x_y(135.0, 8.0).w_h(44.0, 16.0).color(rgb(tdu[5], tdu[5], tdu[5])); // D
     draw.rect().x_y(100.0, 50.0).w_h(16.0, 84.0).color(rgb(tdu[6], tdu[6], tdu[6])); // E
