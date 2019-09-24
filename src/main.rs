@@ -17,7 +17,6 @@ struct Model {
     _window: WindowId,
 }
 
-<<<<<<< HEAD
 struct Node {
     bias: f32,
     weights: Vec<f32>,
@@ -56,8 +55,6 @@ impl Layer {
         values
     }
 }
-=======
->>>>>>> 5982b3b8a1d91f0043d4b65f1d25797351625f4d
 
 fn model(app: &App) -> Model {
     let _window = app
