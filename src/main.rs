@@ -62,7 +62,7 @@ fn model(app: &App) -> Model {
         [1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0],
     ] ;
 
-    let time = 0;
+    let time = 15;
 
     Model {
         training_data_in,
