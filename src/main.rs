@@ -37,7 +37,11 @@ impl Node {
         for pos_num in 0..previous_layer_len {
             value += previous_layer[pos_num] * self.weights[pos_num];
         }
-        value
+        let norm_value = 1.0 / (1.0 + (-value).exp());
+        if norm_value < 0.0 || norm_value > 1.0 {
+            panic!{"Math is broken, the sigmoid functions returns value outside [0; 1]"}
+        }
+        norm_value
     }
 }
 
@@ -157,23 +161,28 @@ fn draw_results(model: &Model, draw: &nannou::app::Draw) {
     draw.ellipse().x_y(-180.0, 165.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
     draw.ellipse().x_y(-180.0, 192.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
 
-    draw.ellipse().x_y(-180.0, 5.0).radius(6.0).color(rgb(1.0, 1.0, 1.0)); // Layer 2
-    draw.ellipse().x_y(-180.0, 32.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
-    draw.ellipse().x_y(-180.0, 59.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
-    draw.ellipse().x_y(-180.0, 86.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
-    draw.ellipse().x_y(-180.0, 112.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
-    draw.ellipse().x_y(-180.0, 138.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
-    draw.ellipse().x_y(-180.0, 165.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
-    draw.ellipse().x_y(-180.0, 192.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
+    draw.ellipse().x_y(-80.0, 5.0).radius(6.0).color(rgb(1.0, 1.0, 1.0)); // Layer 2
+    draw.ellipse().x_y(-80.0, 32.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
+    draw.ellipse().x_y(-80.0, 59.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
+    draw.ellipse().x_y(-80.0, 86.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
+    draw.ellipse().x_y(-80.0, 112.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
+    draw.ellipse().x_y(-80.0, 138.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
+    draw.ellipse().x_y(-80.0, 165.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
+    draw.ellipse().x_y(-80.0, 192.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
 
-    draw.rect().x_y(50.0, 50.0).w_h(16.0, 84.0).color(rgb(tdu[0], tdu[0], tdu[0])); // B
-    draw.rect().x_y(50.0, 150.0).w_h(16.0, 84.0).color(rgb(tdu[1], tdu[1], tdu[1])); // C
+    // 1 part of the 7 segment display
+    draw.rect().x_y(50.0, 150.0).w_h(16.0, 84.0).color(rgb(tdu[1], tdu[1], tdu[1])); // B
+    draw.tri().points((42.0, 192.0), (58.0, 192.0), (58.0, 200.0)).color(rgb(tdu[3], tdu[3], tdu[3])); // B corner
+    draw.tri().points((42.0, 108.0), (58.0, 108.0), (58.0, 100.0)).color(rgb(tdu[3], tdu[3], tdu[3])); // B corner
+    draw.rect().x_y(50.0, 50.0).w_h(16.0, 84.0).color(rgb(tdu[0], tdu[0], tdu[0])); // C
 
+    // 8 part of the 7 segment display
     draw.rect().x_y(135.0, 192.0).w_h(44.0, 16.0).color(rgb(tdu[2], tdu[2], tdu[2])); // A
-    draw.tri().points((157.0, 200.0), (165.0, 200.0), (16.0, 0.0)).color(rgb(tdu[2], tdu[2], tdu[2])); // A corner
-    draw.tri().points((113.0, 200.0), (105.0, 200.0), (113.0, 192.0)).color(rgb(tdu[2], tdu[2], tdu[2])); // A corner
+    draw.tri().points((157.0, 200.0), (165.0, 200.0), (157.0, 184.0)).color(rgb(tdu[2], tdu[2], tdu[2])); // A corner
+    draw.tri().points((113.0, 200.0), (105.0, 200.0), (113.0, 184.0)).color(rgb(tdu[2], tdu[2], tdu[2])); // A corner
     draw.rect().x_y(165.0, 150.0).w_h(16.0, 84.0).color(rgb(tdu[3], tdu[3], tdu[3])); // B
-    draw.tri().points((157.0, 192.0), (173.0, 192.0), (172.0, 200.0)).color(rgb(tdu[3], tdu[3], tdu[3])); // B corner
+    draw.tri().points((157.0, 192.0), (173.0, 192.0), (173.0, 200.0)).color(rgb(tdu[3], tdu[3], tdu[3])); // B corner
+    draw.tri().points((157.0, 108.0), (173.0, 108.0), (173.0, 100.0)).color(rgb(tdu[3], tdu[3], tdu[3])); // B corner
     draw.rect().x_y(165.0, 50.0).w_h(16.0, 84.0).color(rgb(tdu[4], tdu[4], tdu[4])); // C
     draw.rect().x_y(135.0, 8.0).w_h(44.0, 16.0).color(rgb(tdu[5], tdu[5], tdu[5])); // D
     draw.rect().x_y(100.0, 50.0).w_h(16.0, 84.0).color(rgb(tdu[6], tdu[6], tdu[6])); // E
