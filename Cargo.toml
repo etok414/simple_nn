@@ -6,3 +6,4 @@ edition = "2018"
 
 [dependencies]
 nannou = { git = "https://github.com/nannou-org/nannou", branch = "master" }
+rand = "0.6.5"
