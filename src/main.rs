@@ -1,6 +1,9 @@
+extern crate rand;
+
 use nannou::prelude::*;
 use std::thread::sleep;
 use std::time;
+use rand::Rng;
 
 
 fn main() {
@@ -27,9 +30,19 @@ struct Node {
 
 impl Node {
     pub fn new(number_of_weights: usize) -> Node {
-        // Should probably be random.
-        Node {bias: 0.0, weights: vec![0.0; number_of_weights],
-              bias_adjust: None, weight_adjusts: Vec::new()}
+        let mut rng = rand::thread_rng();
+
+        let mut init_weights = vec![0.0; number_of_weights];
+
+        for n in 0..number_of_weights {
+            let x: f32 = rng.gen();  // Random number in the interval [0; 1[
+            init_weights[n] = 2.0 * x  - 1.0;  // The initial weights will be in [-1; 1[
+        }
+
+        Node {bias: 0.0,
+              weights: init_weights, // vec![0.0; number_of_weights],
+              bias_adjust: None,
+              weight_adjusts: Vec::new()}
     }
 
     pub fn calculate(&self, previous_layer:&Vec<f32>) -> f32 {
