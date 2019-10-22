@@ -17,6 +17,7 @@ struct Model {
     _window: WindowId,
 }
 
+#[derive(Clone)]
 struct Node {
     bias: f32,
     weights: Vec<f32>,
@@ -64,7 +65,7 @@ impl Node {
         } else {
             let next_len = next_layer.nodes.len();
             for num in 0..next_len {
-                delta += next_layer.nodes[num].bias_adjust.unwrap();
+                delta += next_layer.nodes[num].bias_adjust.unwrap() * next_layer.nodes[num].weights[desired_value as usize];
             }
             delta *= personal_value * (1.0 - personal_value);
         }
@@ -95,11 +96,16 @@ impl Node {
     }
 }
 
+#[derive(Clone)]
 struct Layer {
     nodes: Vec<Node>,
 }
 
 impl Layer {
+    pub fn new() -> Layer {
+        Layer{nodes:Vec::new()}
+    }
+
     pub fn calculate(&self, previous_layer:&Vec<f32>) -> Vec<f32> {
         let mut values = Vec::new();
         let node_count = self.nodes.len();
@@ -109,10 +115,17 @@ impl Layer {
         values
     }
 
-    pub fn find_adjusts(&mut self, previous_layer:&Vec<f32>, values:&Vec<f32>, desired_values:&Vec<f32>, next_layer: &Layer) {
+    pub fn find_adjusts(&mut self, previous_layer:&Vec<f32>, values:&Vec<f32>, desired_values:&Vec<f32>, next_layer: Layer) {
         let node_count = self.nodes.len();
         for node_num in 0..node_count {
-            self.nodes[node_num].find_adjusts(previous_layer, values[node_num], desired_values[node_num], next_layer);
+            self.nodes[node_num].find_adjusts(previous_layer,
+                                              values[node_num],
+                                              match desired_values.len() {
+                                                  0 => node_num as f32,
+                                                  _ => desired_values[node_num],
+                                              },
+                                              &next_layer
+                                              );
         }
     }
 
@@ -121,6 +134,29 @@ impl Layer {
         for node_num in 0..node_count {
             self.nodes[node_num].adjust(learning_rate)
         }
+    }
+}
+
+fn calculate(inputs: &Vec<f32>, layers:&Vec<Layer>) -> Vec<Vec<f32>> {
+    let mut values = vec![layers[0].calculate(inputs)];
+    for num in 1..layers.len() {
+        values.push(layers[num].calculate(&values[num-1]));
+    }
+    values
+}
+
+fn find_make_adjust(inputs: &Vec<f32>, layers:&mut Vec<Layer>, desired_outputs:&Vec<f32>, learning_rate:f32) {
+    let values = calculate(inputs, &layers);
+    let layer_count = layers.len();
+    layers[layer_count-1].find_adjusts(&values[layer_count-2], &values[layer_count-1], desired_outputs, Layer::new());
+    for num in (1..layer_count-1).rev() {
+        let next_layer = layers[num+1].clone();
+        layers[num].find_adjusts(&values[num-1], &values[num], &Vec::new(), next_layer);
+    }
+    let next_layer = layers[1].clone();
+    layers[0].find_adjusts(inputs, &values[0], &Vec::new(), next_layer);
+    for num in 0..layer_count {
+        layers[num].adjust(learning_rate);
     }
 }
 
