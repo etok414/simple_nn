@@ -17,6 +17,9 @@ struct Model {
     training_data_in: [[f32; 4]; 16],
     training_data_out: [[f32; 9]; 16],
     time: usize,
+    relevant_data: usize,
+    learning_rate: f32,
+    layers: Vec<Layer>,
     _window: WindowId,
 }
 
@@ -38,8 +41,10 @@ impl Node {
             let x: f32 = rng.gen();  // Random number in the interval [0; 1[
             init_weights[n] = 2.0 * x  - 1.0;  // The initial weights will be in [-1; 1[
         }
+        let x: f32 = rng.gen();  // Random number in the interval [0; 1[
+        let bias = 2.0 * x  - 1.0;  // The initial weights will be in [-1; 1[
 
-        Node {bias: 0.0,
+        Node {bias: bias,
               weights: init_weights, // vec![0.0; number_of_weights],
               bias_adjust: None,
               weight_adjusts: Vec::new()}
@@ -115,8 +120,12 @@ struct Layer {
 }
 
 impl Layer {
-    pub fn new() -> Layer {
-        Layer{nodes:Vec::new()}
+    pub fn new(number_of_weights: usize, number_of_nodes: usize) -> Layer {
+        let mut layer = Layer{nodes:Vec::new()};
+        for _ in 0..number_of_nodes {
+            layer.nodes.push(Node::new(number_of_weights));
+        }
+        layer
     }
 
     pub fn calculate(&self, previous_layer:&Vec<f32>) -> Vec<f32> {
@@ -150,26 +159,28 @@ impl Layer {
     }
 }
 
-fn calculate(inputs: &Vec<f32>, layers:&Vec<Layer>) -> Vec<Vec<f32>> {
-    let mut values = vec![layers[0].calculate(inputs)];
-    for num in 1..layers.len() {
-        values.push(layers[num].calculate(&values[num-1]));
+// fn calculate(inputs: &Vec<f32>, layers:&Vec<Layer>) -> Vec<Vec<f32>> {
+fn calculate(model: &Model) -> Vec<Vec<f32>> {
+    let mut values = vec![model.layers[0].calculate(&model.training_data_in[model.relevant_data].to_vec())];
+    for num in 1..model.layers.len() {
+        values.push(model.layers[num].calculate(&values[num-1]));
     }
     values
 }
 
-fn find_make_adjust(inputs: &Vec<f32>, layers:&mut Vec<Layer>, desired_outputs:&Vec<f32>, learning_rate:f32) {
-    let values = calculate(inputs, &layers);
-    let layer_count = layers.len();
-    layers[layer_count-1].find_adjusts(&values[layer_count-2], &values[layer_count-1], desired_outputs, Layer::new());
+// fn find_make_adjust(inputs: &Vec<f32>, layers:&mut Vec<Layer>, desired_outputs:&Vec<f32>, learning_rate:f32) {
+fn find_make_adjust(model: &mut Model) {
+    let values = calculate(&model);
+    let layer_count = model.layers.len();
+    model.layers[layer_count-1].find_adjusts(&values[layer_count-2], &values[layer_count-1], &model.training_data_out[model.relevant_data].to_vec(), Layer::new(0, 0));
     for num in (1..layer_count-1).rev() {
-        let next_layer = layers[num+1].clone();
-        layers[num].find_adjusts(&values[num-1], &values[num], &Vec::new(), next_layer);
+        let next_layer = model.layers[num+1].clone();
+        model.layers[num].find_adjusts(&values[num-1], &values[num], &Vec::new(), next_layer);
     }
-    let next_layer = layers[1].clone();
-    layers[0].find_adjusts(inputs, &values[0], &Vec::new(), next_layer);
+    let next_layer = model.layers[1].clone();
+    model.layers[0].find_adjusts(&model.training_data_in[model.relevant_data].to_vec(), &values[0], &Vec::new(), next_layer);
     for num in 0..layer_count {
-        layers[num].adjust(learning_rate);
+        model.layers[num].adjust(model.learning_rate);
     }
 }
 
@@ -222,25 +233,41 @@ fn model(app: &App) -> Model {
         [1.0, 1.0, 1.0, 0.0, 1.0, 1.0, 0.0, 1.0, 1.0],
     ] ;
 
-    let time = 15;
+    let time = 0;
+
+    let relevant_data = 0;
+
+    let learning_rate = 0.5;
+
+    let mut layers = Vec::new();
+    layers.push(Layer::new(4, 8));
+    layers.push(Layer::new(8, 8));
+    layers.push(Layer::new(8, 9));
 
     Model {
         training_data_in,
         training_data_out,
         time,
+        relevant_data,
+        learning_rate,
+        layers,
         _window }
 }
 
 
 fn update(_app: &App, model: &mut Model, _update: Update) {
 
+    find_make_adjust(model);
     model.time += 1;
+    model.relevant_data += 1;
 
-    if model.time > 15 {
-        model.time = 0;
+    if model.relevant_data > 15 {
+        model.relevant_data = 0;
     }
 
-    sleep(time::Duration::new(1, 0));
+    if model.time > 5_000 {
+        sleep(time::Duration::new(1, 0));
+    }
 }
 
 
@@ -255,10 +282,11 @@ fn view(app: &App, model: &Model, frame: &Frame) {
 
 
 fn draw_results(model: &Model, draw: &nannou::app::Draw) {
-    let t = model.time;
 
-    let tdi = model.training_data_in[t];
-    let tdu = model.training_data_out[t];
+    let tdi = model.training_data_in[model.relevant_data];
+    // let tdu = model.training_data_out[model.relevant_data];
+    let results = calculate(model);
+    let tdu = &results[results.len() - 1];
 
     draw.ellipse().x_y(-300.0, 5.0).radius(10.0).color(rgb(tdi[0], tdi[0], tdi[0])); // Input
     draw.ellipse().x_y(-300.0, 62.0).radius(10.0).color(rgb(tdi[1], tdi[1], tdi[1]));
