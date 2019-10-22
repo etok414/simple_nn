@@ -237,7 +237,7 @@ fn model(app: &App) -> Model {
 
     let relevant_data = 0;
 
-    let learning_rate = 0.5;
+    let learning_rate = 0.9;
 
     let mut layers = Vec::new();
     layers.push(Layer::new(4, 8));
@@ -265,8 +265,10 @@ fn update(_app: &App, model: &mut Model, _update: Update) {
         model.relevant_data = 0;
     }
 
-    if model.time > 5_000 {
-        sleep(time::Duration::new(1, 0));
+    // if model.time > 4_000 {
+    if model.time % 500 < 20 {
+        println!("{:?}", model.time);
+        sleep(time::Duration::new(0, 500000000)); // sec, nano sec
     }
 }
 
@@ -312,21 +314,31 @@ fn draw_results(model: &Model, draw: &nannou::app::Draw) {
     draw.ellipse().x_y(-80.0, 192.0).radius(6.0).color(rgb(1.0, 1.0, 1.0));
 
     // 1 part of the 7 segment display
-    draw.rect().x_y(50.0, 150.0).w_h(16.0, 84.0).color(rgb(tdu[1], tdu[1], tdu[1])); // B
-    draw.tri().points((42.0, 192.0), (58.0, 192.0), (58.0, 200.0)).color(rgb(tdu[3], tdu[3], tdu[3])); // B corner
-    draw.tri().points((42.0, 108.0), (58.0, 108.0), (58.0, 100.0)).color(rgb(tdu[3], tdu[3], tdu[3])); // B corner
-    draw.rect().x_y(50.0, 50.0).w_h(16.0, 84.0).color(rgb(tdu[0], tdu[0], tdu[0])); // C
+    // draw.polygon().color(rgb(tdu[1], tdu[1], tdu[1])).points(vec!(pt2(106.0 + 67.0, 184.0), pt2(112.0 + 67.0, 178.0),pt2(112.0 + 67.0, 112.0), pt2(106.0 + 67.0, 103.0), pt2(96.0 + 67.0, 109.0), pt2(96.0 + 67.0, 176.0))); // B
+    // draw.rect().x_y(50.0, 150.0).w_h(16.0, 84.0).color(rgb(tdu[1], tdu[1], tdu[1])); // B
+    draw.polygon().color(rgb(tdu[1], tdu[1], tdu[1])).points(vec!(pt2(106.0 - 62.0, 184.0), pt2(112.0 - 62.0, 178.0),pt2(112.0 - 62.0, 112.0), pt2(106.0 - 62.0, 103.0), pt2(96.0 - 62.0, 109.0), pt2(96.0 - 62.0, 176.0))); // B
+    // draw.tri().points((42.0, 192.0), (58.0, 192.0), (58.0, 200.0)).color(rgb(tdu[1], tdu[1], tdu[1])); // B corner
+    // draw.tri().points((42.0, 108.0), (58.0, 108.0), (58.0, 100.0)).color(rgb(tdu[1], tdu[1], tdu[1])); // B corner
+    // draw.rect().x_y(50.0, 50.0).w_h(16.0, 84.0).color(rgb(tdu[0], tdu[0], tdu[0])); // C
+    draw.polygon().color(rgb(tdu[0], tdu[0], tdu[0])).points(vec!(pt2(106.0 - 62.0, 184.0 - 85.0), pt2(112.0 - 62.0, 178.0 - 85.0),pt2(112.0 - 62.0, 112.0 - 85.0), pt2(106.0 - 62.0, 103.0 - 85.0), pt2(96.0 - 62.0, 109.0 - 85.0), pt2(96.0 - 62.0, 176.0 - 85.0))); // C
 
     // 8 part of the 7 segment display
-    draw.rect().x_y(135.0, 192.0).w_h(44.0, 16.0).color(rgb(tdu[2], tdu[2], tdu[2])); // A
-    draw.tri().points((157.0, 200.0), (165.0, 200.0), (157.0, 184.0)).color(rgb(tdu[2], tdu[2], tdu[2])); // A corner
-    draw.tri().points((113.0, 200.0), (105.0, 200.0), (113.0, 184.0)).color(rgb(tdu[2], tdu[2], tdu[2])); // A corner
-    draw.rect().x_y(165.0, 150.0).w_h(16.0, 84.0).color(rgb(tdu[3], tdu[3], tdu[3])); // B
-    draw.tri().points((157.0, 192.0), (173.0, 192.0), (173.0, 200.0)).color(rgb(tdu[3], tdu[3], tdu[3])); // B corner
-    draw.tri().points((157.0, 108.0), (173.0, 108.0), (173.0, 100.0)).color(rgb(tdu[3], tdu[3], tdu[3])); // B corner
-    draw.rect().x_y(165.0, 50.0).w_h(16.0, 84.0).color(rgb(tdu[4], tdu[4], tdu[4])); // C
-    draw.rect().x_y(135.0, 8.0).w_h(44.0, 16.0).color(rgb(tdu[5], tdu[5], tdu[5])); // D
-    draw.rect().x_y(100.0, 50.0).w_h(16.0, 84.0).color(rgb(tdu[6], tdu[6], tdu[6])); // E
-    draw.rect().x_y(100.0, 150.0).w_h(16.0, 84.0).color(rgb(tdu[7], tdu[7], tdu[7])); // F
-    draw.rect().x_y(135.0, 100.0).w_h(44.0, 16.0).color(rgb(tdu[8], tdu[8], tdu[8])); // G
+    // draw.rect().x_y(135.0, 192.0).w_h(44.0, 16.0).color(rgb(tdu[2], tdu[2], tdu[2])); // A
+    draw.polygon().color(rgb(tdu[2], tdu[2], tdu[2])).points(vec!(pt2(108.0, 190.0), pt2(113.0, 197.0),pt2(163.0, 197.0), pt2(172.0, 189.0), pt2(161.0, 182.0), pt2(115.0, 182.0))); // A
+    // draw.tri().points((157.0, 200.0), (165.0, 200.0), (157.0, 184.0)).color(rgb(tdu[2], tdu[2], tdu[2])); // A corner
+    // draw.tri().points((113.0, 200.0), (105.0, 200.0), (113.0, 184.0)).color(rgb(tdu[2], tdu[2], tdu[2])); // A corner
+    // draw.rect().x_y(165.0, 150.0).w_h(16.0, 84.0).color(rgb(tdu[3], tdu[3], tdu[3])); // B
+    draw.polygon().color(rgb(tdu[3], tdu[3], tdu[3])).points(vec!(pt2(106.0 + 67.0, 184.0), pt2(112.0 + 67.0, 178.0),pt2(112.0 + 67.0, 112.0), pt2(106.0 + 67.0, 103.0), pt2(96.0 + 67.0, 109.0), pt2(96.0 + 67.0, 176.0))); // B
+    // draw.tri().points((157.0, 192.0), (173.0, 192.0), (173.0, 200.0)).color(rgb(tdu[3], tdu[3], tdu[3])); // B corner
+    // draw.tri().points((157.0, 108.0), (173.0, 108.0), (173.0, 100.0)).color(rgb(tdu[3], tdu[3], tdu[3])); // B corner
+    // draw.rect().x_y(165.0, 50.0).w_h(16.0, 84.0).color(rgb(tdu[4], tdu[4], tdu[4])); // C
+    draw.polygon().color(rgb(tdu[4], tdu[4], tdu[4])).points(vec!(pt2(106.0 + 67.0, 184.0 - 85.0), pt2(112.0 + 67.0, 178.0 - 85.0),pt2(112.0 + 67.0, 112.0 - 85.0), pt2(106.0 + 67.0, 103.0 - 85.0), pt2(96.0 + 67.0, 109.0 - 85.0), pt2(96.0 + 67.0, 176.0 - 85.0))); // C
+    // draw.rect().x_y(135.0, 8.0).w_h(44.0, 16.0).color(rgb(tdu[5], tdu[5], tdu[5])); // D
+    draw.polygon().color(rgb(tdu[2], tdu[2], tdu[2])).points(vec!(pt2(108.0, 190.0 - 176.0), pt2(113.0, 197.0 - 176.0),pt2(163.0, 197.0 - 176.0), pt2(172.0, 189.0 - 176.0), pt2(161.0, 182.0 - 176.0), pt2(115.0, 182.0 - 176.0))); // D
+    // draw.rect().x_y(100.0, 50.0).w_h(16.0, 84.0).color(rgb(tdu[6], tdu[6], tdu[6])); // E
+    draw.polygon().color(rgb(tdu[6], tdu[6], tdu[6])).points(vec!(pt2(106.0, 184.0 - 85.0), pt2(112.0, 178.0 - 85.0),pt2(112.0, 112.0 - 85.0), pt2(106.0, 103.0 - 85.0), pt2(96.0, 109.0 - 85.0), pt2(96.0, 176.0 - 85.0))); // E
+    // draw.rect().x_y(100.0, 150.0).w_h(16.0, 84.0).color(rgb(tdu[7], tdu[7], tdu[7])); // F
+    draw.polygon().color(rgb(tdu[7], tdu[7], tdu[7])).points(vec!(pt2(106.0, 184.0), pt2(112.0, 178.0),pt2(112.0, 112.0), pt2(106.0, 103.0), pt2(96.0, 109.0), pt2(96.0, 176.0))); // F
+    // draw.rect().x_y(135.0, 100.0).w_h(44.0, 16.0).color(rgb(tdu[8], tdu[8], tdu[8])); // G
+    draw.polygon().color(rgb(tdu[2], tdu[2], tdu[2])).points(vec!(pt2(108.0, 190.0 - 90.0), pt2(113.0, 197.0 - 90.0),pt2(163.0, 197.0 - 90.0), pt2(172.0, 189.0 - 90.0), pt2(161.0, 182.0 - 90.0), pt2(115.0, 182.0 - 90.0))); // G
 }
