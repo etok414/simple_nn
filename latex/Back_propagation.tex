@@ -11,26 +11,65 @@
 \addtolength{\topmargin}{-.875in}
 \addtolength{\textheight}{1.75in}
 
+\title{\normalfont{Back propagation in a simple neural net}}
+
 \begin{document}
-Brains is made up of neurons connected to each other. By making a mathematical model of some neurons wired together (a neural network) one can emulate some aspects of a brain.
+\maketitle
+\section*{Introduction}
+Brains are made up of neurons connected to each other. By making a mathematical model of some neurons wired together (a neural network) one can emulate some aspects of a brain.
 \\
 In this note we will look at a very simple neural network in detail and show how matrices can be used to describe the processing and learning of the network.
 \\The matrix formulation works for bigger networks as well.
 \\
+The goal of this note is to look at a simple example in painstaking detail. For more background and analysis go to the links in the references at the end of the note.
+\\
+\\
+\section*{The basic model}
 The network we will consider here consists of two input neurons (or nodes), two output neurones and a single hidden layer with two neurons.
 \\
+The layers is numbered with the input layer as (0), the hidden layer as 1 and the output layer as (2). \textit{In this note an upper index in parenthesis refer to the layer.}
+\\
+In each layer there are two neurons numbered 0 and 1 with \textit{a lower index}.
+\\
+Every number has a value $a$ with indices indicating which neuron it belongs to.
+\\
+For example $a_0^{(0)}$ is the value of the first (input) neuron in the first layer.
 \begin{figure}[h]
 \includegraphics[scale=.4]{two_neuron_net}
 \centering
 \end{figure}
 \\
-Forward pass:
+The value of a neuron is the weighted sum of the neuron values from previous layers. The weight between two neurons belongs to the latter layer and for practical reasons the end-neurons number is written first. Therefore $w_{01}^{1}$ is the weight between the neurons with values $a_1^{(0)}$ and $a_0^{(1)}$.
+\\
+A bias is added to each weighted sum in order to avoid origo ("(0, 0)") always being a minimum.
+\\
+For practical reasons we use just one bias node for each layer with the value 1 and store the actual bias in the last weights in each layer. Here $w_{02}^{(1)}$ and $w_{12}^{(1)}$ is the biases for layer (1).
+\\
+\\
+Actually one have to apply a function to the weighed sum in order to get the value of a neuron.
+\\
+This function introduces a needed non-linearity and keeps the numbers manageable.
+\\
+A lot of functions can be used, but a common choice is the sigmoid function $\sigma(x) = \dfrac{1}{(1-e^{-x})} = \dfrac{e^{x}}{(1-e^{x})}$ with the practical derivative $\sigma(x) = \sigma(x)(1 - \sigma(x)) $.
+\\
+\\
+\begin{figure}[h]
+\includegraphics[scale=.5]{sigmoid}
+\centering
+\end{figure}
+\\
+To train the network input values are fed into the input nodes, the weighted sum is calculated for the hidden layer and then for the output layer. This is called \textit{the forward pass}. Then the output values are compared to target values $T_0, T_1, ...$ and a \textit{cost} is calculated. This cost is a function of all the weights and using the derivative of the cost function with respect to each weight an adjustment to the weights can be \textit{back propagated}.
+\\
+\section*{Forward pass}
+In the forward pass the values of each neuron is calculated by applying the sigmoid function to the weighted sum of input for each layer:
+\\
 \begin{equation} \label{eq:a01}
 a_0^{(1)} = \sigma(w_{00}^{(1)}a_0^{(0)}+w_{01}^{(1)}a_1^{(0)}+w_{02}^{(1)})
 \end{equation}
 \begin{equation} \label{eq:a11}
 a_1^{(1)} = \sigma(w_{10}^{(1)}a_0^{(0)}+w_{11}^{(1)}a_1^{(0)}+w_{12}^{(1)})
 \end{equation}
+\\
 \begin{equation} \label{eq:a02}
 a_0^{(2)} = \sigma(w_{00}^{(2)}a_0^{(1)}+w_{01}^{(2)}a_1^{(1)}+w_{02}^{(2)})
 \end{equation}
@@ -53,7 +92,9 @@ w_{01}^{(1)} & w_{11}^{(1)} \\
 \[
 \vec a^{(2)} = \sigma(\vec A^{(1)}W^{(2)})
 \]
-Note that $\vec a^{(1)} = \binom{a_0^{(1)}}{a_1^{(1)}}$ and $\vec A^{(1)} = (a_0^{(1)} a_1^{(1)} 1)$ both contain the values for the nodes in layer (1). $\vec A^{(1)}$ is needed to include the biases.
+Note that $\vec a^{(1)} = \binom{a_0^{(1)}}{a_1^{(1)}}$ and $\vec A^{(1)} = (a_0^{(1)} a_1^{(1)} 1)$ both contain the values for the nodes in layer (1).
+\\
+$\vec A^{(1)}$ is needed to include the biases in some calculations.
 \\
 \\ The costfunction is $$ C = \frac {1}{2}(a_0^{(2)}-T_0)^2 + \frac {1}{2}(a_1^{(2)}-T_1)^2 $$
 or using \eqref{eq:a02} and \eqref{eq:a12}
@@ -273,8 +314,7 @@ a_{0}^{(2)}-T_0 \\ a_{1}^{(2)}-T_1
 \\
 \\
 \\
-References: 
-\\
+\section{References:}
 \url{https://mattmazur.com/2015/03/17/a-step-by-step-backpropagation-example/}
 \\
 \url{https://page.mi.fu-berlin.de/rojas/neural/chapter/K7.pdf}
