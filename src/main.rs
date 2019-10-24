@@ -178,6 +178,8 @@ impl Layer {
 
 // fn calculate(inputs: &Vec<f32>, layers:&Vec<Layer>) -> Vec<Vec<f32>> {
 fn calculate(model: &Model) -> Vec<Vec<f32>> {
+//Calculates the values of all nodes based on the active training data and the weights and biases.
+//The outer vector of the output is the layer, the inner vector is the position in the layer. To get the output layer from values, say values[values.len() - 1]
     let mut values = vec![model.layers[0].calculate(&model.training_data_in[model.relevant_data].to_vec())];
     for num in 1..model.layers.len() {
         values.push(model.layers[num].calculate(&values[num-1]));
@@ -185,8 +187,22 @@ fn calculate(model: &Model) -> Vec<Vec<f32>> {
     values
 }
 
+fn find_cost(model: &Model) -> f32 {
+//Finds the cost function of the active training data, which is the difference between the current result and the desired result.
+//Not actually used for anything, since the find_adjust use calculations that have already taken the cost function into accout.
+    let values = calculate(model);
+    let mut cost = 0.0;
+    for (num, value) in values[values.len() - 1].iter().enumerate() {
+        cost += (value - model.training_data_out[model.relevant_data][num]).powi(2)/2.0;
+    }
+    cost
+}
+
 // fn find_make_adjust(inputs: &Vec<f32>, layers:&mut Vec<Layer>, desired_outputs:&Vec<f32>, learning_rate:f32) {
 fn find_make_adjust(model: &mut Model) {
+//Finds out how the weights and biases should be adjusted, based on the difference between the results of the calculate function and the desired outputs.
+//It does it in reverse order, because that's how you have to do it.
+//Then it implements all of the changes after they have all been calculated. That doesn't have to be done in reverse order, so it isn't.
     let values = calculate(&model);
     let layer_count = model.layers.len();
     model.layers[layer_count-1].find_adjusts(&values[layer_count-2], &values[layer_count-1], &model.training_data_out[model.relevant_data].to_vec(), &Layer::new(0, 0));
@@ -252,7 +268,7 @@ fn model(app: &App) -> Model {
 
     let time = 0;
 
-    let relevant_data = 0;
+    let relevant_data = 1;
 
     let learning_rate = 0.5;
 
@@ -283,8 +299,8 @@ fn update(_app: &App, model: &mut Model, _update: Update) {
     }
 
     // if model.time > 4_000 {
-    if model.time % 500 < 20 {
-        println!("{:?}", model.time);
+    if model.time % 512 < 16 {
+        println!("time: {:?} cost: {:?}", model.time, find_cost(model));
         sleep(time::Duration::new(0, 500000000)); // sec, nano sec
     }
 }
