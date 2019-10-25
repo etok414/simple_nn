@@ -27,7 +27,10 @@ The goal of this note is to look at a simple example in painstaking detail. For 
 \section*{The basic model}
 The network we will consider here consists of two input neurons (or nodes), two output neurones and a single hidden layer with two neurons.
 \\
-The layers is numbered with the input layer as (0), the hidden layer as 1 and the output layer as (2). \textit{In this note an upper index in parenthesis refer to the layer.}
+That simple a network can only transform two input numbers, say (0.1, 0.9), to two output numbers, say (0.3, 0.4). In the Open Office Calc document \textit{Simple\_Neural\_Net.ods} such a network is implementet in a spreadsheet.
+\\
+\\
+The layers are numbered with the input layer as (0), the hidden layer as (1) and the output layer as (2). \textit{In this note an upper index in parenthesis refer to the layer.}
 \\
 In each layer there are two neurons numbered 0 and 1 with \textit{a lower index}.
 \\
@@ -39,7 +42,7 @@ For example $a_0^{(0)}$ is the value of the first (input) neuron in the first la
 \centering
 \end{figure}
 \\
-The value of a neuron is the weighted sum of the neuron values from previous layers. The weight between two neurons belongs to the latter layer and for practical reasons the end-neurons number is written first. Therefore $w_{01}^{1}$ is the weight between the neurons with values $a_1^{(0)}$ and $a_0^{(1)}$.
+The value of a neuron is the weighted sum of the neuron values from previous layers. The weight between two neurons belongs to the latter layer and for practical reasons the end-neurons number is written first. Therefore $w_{01}^{(1)}$ is the weight between the neurons with values $a_1^{(0)}$ and $a_0^{(1)}$.
 \\
 A bias is added to each weighted sum in order to avoid origo ("(0, 0)") always being a minimum.
 \\
@@ -96,7 +99,15 @@ Note that $\vec a^{(1)} = \binom{a_0^{(1)}}{a_1^{(1)}}$ and $\vec A^{(1)} = (a_0
 \\
 $\vec A^{(1)}$ is needed to include the biases in some calculations.
 \\
-\\ The costfunction is $$ C = \frac {1}{2}(a_0^{(2)}-T_0)^2 + \frac {1}{2}(a_1^{(2)}-T_1)^2 $$
+\section*{Back propagation}
+To train the network we need a measure of how far the output values $\vec a^{(2)}$ are from the target values $\vec T$. As mentioned this measure is called \textit{the cost function}.
+\\ 
+We define the cost as the difference between output values and target values. To avoid negative numbers we square the difference before we sum up the differnces.
+\\
+And as the cost is just a number we want to minimize, we can multiply with $\frac{1}{2}$ to simplify the derivative.
+\\
+\\
+In this case the cost function will be $$ C = \frac {1}{2}(a_0^{(2)}-T_0)^2 + \frac {1}{2}(a_1^{(2)}-T_1)^2 $$
 or using \eqref{eq:a02} and \eqref{eq:a12}
 
 \begin{equation} \label{eq:C} 
@@ -109,7 +120,8 @@ C = \frac {1}{2}(\sigma(w_{00}^{(2)}a_0^{(1)}+w_{01}^{(2)}a_1^{(1)}+w_{02}^{(2)}
 \\
 We cand find how much each weight in layer (2) have to change by finding the derivative of C with respect to each weight.
 \\
-\\Let's start with finding $\frac{dC}{dw_{00}^{(2)}}$
+\\
+Let's start with finding $\frac{dC}{dw_{00}^{(2)}}$
 \\
 Only the first term of C in equation \eqref{eq:C} include $w_{00}^{(2)}$. This term is a composite function $f \circ g \circ h(w_{00}^{(2)}, w_{01}^{(2)}, w_{02}^{(2)}, w_{10}^{(2)}, w_{11}^{(2)},w_{12}^{(2)})$ where $f, g$ and $h$ and their derivatives are
 $$f(\sigma) = \frac {1}{2}(\sigma-T_0)^2~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\frac{df}{d\sigma} = (\sigma-T_0)$$
@@ -119,7 +131,8 @@ By using  \eqref{eq:a02} we note that $$(\sigma - T_0) = (a_0^{(2)} - T_0)$$ and
 \\ The chain rule $$\frac{dC}{dw_{00}^{(2)}} = \frac{df}{d\sigma}~\frac{d\sigma}{dh}~\frac{dh}{dw_{00}^{(2)}}$$ 
 then gives us
 $\frac{dC}{dw_{00}^{(2)}} = (a_0^{(2)}-T_0)~a_0^{(2)}(1-a_0^{(2)})~a_0^{(1)} $, the first entry in the change matrix.
-\\\\
+\\
+\\
 The rest is found in a similar manner:
 $$\begin{pmatrix}
 \frac{dC}{dw_{00}^{(2)}} & \frac{dC}{dw_{01}^{(2)}} & \frac{dC}{dw_{02}^{(2)}}
@@ -133,7 +146,8 @@ $$\begin{pmatrix}
 (a_1^{(2)}-T_1)a_1^{(2)}(1-a_1^{(2)})a_0^{(1)} & (a_1^{(2)}-T_1)a_1^{(2)}(1-a_1^{(2)})a_1^{(1)} & (a_1^{(2)}-T_1)a_1^{(2)}(1-a_1^{(2)})1
 \end{pmatrix}$$
 We note that each entry in the upper row contains $\delta_0^{(2)} = (a_0^{(2)}-T_0)a_0^{(2)}(1-a_0^{(2)})$ and that each entry in the lower row contains $\delta_1^{(2)} = (a_1^{(2)}-T_1)a_1^{(2)}(1-a_1^{(2)})$.
-\\\\
+\\
+\\
 Therefore the transposed change matrix for layer (2) is $$\frac{dC}{dW^{(2)}} = 
 \begin{pmatrix}
 \frac{dC}{dw_{00}^{(2)}} & \frac{dC}{dw_{01}^{(2)}} & \frac{dC}{dw_{02}^{(2)}}
@@ -150,7 +164,8 @@ and we had $A^{(1)} = (a_0^{(1)} a_1^{(1)} 1)$.
 \\
 After all change matrices is found the change is applied to all weights. For layer (2) this will be $$W^{(2)} = W^{(2)} - \gamma \cdot \frac{dC}{dW^{(2)}}$$
 where $\gamma$ is a number between 0 and 1 called the learning rate. A good start value for $\gamma$ is usually 0.5
-\\\\
+\\
+\\
 To find how much each weight in layer (1) have to change we can use \eqref{eq:a01} and \eqref{eq:a11} in \eqref{eq:C}
 
 \begin{equation} \label{eq:C1} 
@@ -196,7 +211,7 @@ By introducing the matrices
 \\
 $c = 
 \begin{pmatrix}
-a_{0}^{(2)}-T^{0} \\ a_{1}^{(2)}-T^{1}
+a_{0}^{(2)}-T_{0} \\ a_{1}^{(2)}-T_{1}
 \end{pmatrix}$ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ $w_{2} = 
 \begin{pmatrix}
 w_{00}^{(2)} & w_{01}^{(2)} \\ w_{10}^{(2)} & w_{11}^{(2)}
