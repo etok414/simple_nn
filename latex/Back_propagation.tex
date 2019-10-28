@@ -137,6 +137,7 @@ To minimize the cost we find the derivative of C with respect to each weight in 
 \\
 This derivative can be subtracted from the relevant weights in order to get a better cost value after the next forward pass.
 \\
+\\
 Note that the derivative of \textit{all} weights in \textit{all} layers have to be calculated before \textit{any} weight is changed.
 \\
 \\
@@ -144,10 +145,11 @@ Let's start by finding $\frac{dC}{dw_{00}^{(2)}}$
 \\
 Only the first term of C in equation \eqref{eq:C} include $w_{00}^{(2)}$.
 \\
+\\
 This term is a composite function $f \circ g \circ h(w_{00}^{(2)}, w_{01}^{(2)}, w_{02}^{(2)}, w_{10}^{(2)}, w_{11}^{(2)},w_{12}^{(2)})$ where $f, g$ and $h$ and their derivatives are
-$$f(\sigma) = \frac {1}{2}(\sigma-T_0)^2~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\frac{df}{d\sigma} = (\sigma-T_0)$$
-$$g(h) = \sigma(h)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\frac{dg}{dh} = \frac{d\sigma}{dh} = \sigma(h)(1 - \sigma(h))$$ 
-$$h(w_{00}^{(2)}, w_{01}^{(2)}, w_{02}^{(2)}) = w_{00}^{(2)}a_0^{(1)}+w_{01}^{(2)}a_1^{(1)}+w_{02}^{(2)}~~~~~~~~\frac{dh}{dw_{00}^{(2)}} = a_0^{(1)}$$
+$$f(\sigma) = \frac {1}{2}(\sigma-T_0)^2~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\frac{df}{d\sigma} = (\sigma-T_0)$$
+$$g(h) = \sigma(h)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\frac{dg}{dh} = \frac{d\sigma}{dh} = \sigma(h)(1 - \sigma(h))$$ 
+$$h(w_{00}^{(2)}, w_{01}^{(2)}, w_{02}^{(2)}) = w_{00}^{(2)}a_0^{(1)}+w_{01}^{(2)}a_1^{(1)}+w_{02}^{(2)}~~~~~~~~~~~~~\frac{dh}{dw_{00}^{(2)}} = a_0^{(1)}$$
 By using  \eqref{eq:a02} we note that $$(\sigma - T_0) = (a_0^{(2)} - T_0)$$ and $$\sigma(h)(1-\sigma(h)) =a_0^{(2)}(1-a_0^{(2)})$$ 
 \\ The chain rule $$\frac{dC}{dw_{00}^{(2)}} = \frac{df}{d\sigma}~\frac{d\sigma}{dh}~\frac{dh}{dw_{00}^{(2)}}$$ 
 then gives us
@@ -235,25 +237,28 @@ where $\delta^{(1)}=\binom{\delta_0^{(1)}}{\delta_1^{(1)}}$ and $A^{(0)}=(a_{0}^
 \\
 By introducing the matrices
 \\
-$c = 
+\\
+$$c = 
 \begin{pmatrix}
 a_{0}^{(2)}-T_{0} \\ a_{1}^{(2)}-T_{1}
-\end{pmatrix}$ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ $w_{2} = 
+\end{pmatrix} ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ w_{2} = 
 \begin{pmatrix}
 w_{00}^{(2)} & w_{01}^{(2)} \\ w_{10}^{(2)} & w_{11}^{(2)}
-\end{pmatrix}$
+\end{pmatrix}$$
 \\
 \\
-$D^{(2)} = 
+$$D^{(2)} = 
 \begin{pmatrix}
 a_{0}^{(2)}(1-a_{0}^{(2)}) & 0 \\
 0 & a_{1}^{(2)}(1-a_{1}^{(2)})
-\end{pmatrix}$~~~~~~~~
-$D^{(1)} = 
+\end{pmatrix}~~~~~~~~
+D^{(1)} = 
 \begin{pmatrix}
 a_{0}^{(1)}(1-a_{0}^{(1)}) & 0 \\
 0 & a_{0}^{(1)}(1-a_{0}^{(1)})
-\end{pmatrix}$
+\end{pmatrix}$$
+\\
+\\
 \\
 we can write $\delta^{(2)} = 
 \begin{pmatrix}
@@ -273,6 +278,7 @@ a_{0}^{(2)}-T_0 \\ a_{1}^{(2)}-T_1
 \\
 \\
 Then 
+\\
 \[
 D^{(1)} w^{(2)} \delta^{(2)} = 
 \begin{pmatrix}
@@ -286,6 +292,7 @@ w_{00}^{(2)} & w_{01}^{(2)} \\ w_{10}^{(2)} & w_{11}^{(2)}
 \delta_{0}^{(2)} \\ \delta_{1}^{(2)}
 \end{pmatrix}
 \]
+\\
 \[
 = 
 \begin{pmatrix}
@@ -304,6 +311,7 @@ w_{01}^{(2)} a_{1}^{(1)}(1-a_{1}^{(1)}) & w_{11}^{(2)} a_{1}^{(1)}(1-a_{1}^{(1)}
 \end{pmatrix} = \delta^{(1)}
 \]
 \\
+\\
 To summarise 
 \[
 \frac{dC}{dW^{(1)}} = \delta^{(1)} A^{(0)} = D^{(1)} w^{(2)} \delta^{(2)}  A^{(0)}
@@ -315,13 +323,14 @@ and
 \\
 $\delta$ is sometimes called the "error" because it tell us how much the weights have to change, and part of $\delta$ is the difference between the output and the target $(a_{0}^{(2)}-T_0)$.
 \\
+\\
 We also see that neurons with high values of $a$ contribute more to the change matrix, kind of like more active neurons in a biological network tend to reinforce learning in the network.
 \\
 \\
 \section*{Bigger networks}
 When we add neurons to a layer nothing changes if we use matrix notation, except for the size of the matrices.
 \\
-If we introduce new layers the forward pass is simple and the back propagation between each layer is done as before; we just find the new $\delta$ as $$\delta^{(i)} = D^{(i)} w^{(i+1)} \delta^{(i+1)}$$
+If we introduce new layers the changes to the forward pass is trivia and the back propagation between each layer is done as before; we just find the new $\delta$'s as $$\delta^{(i)} = D^{(i)} w^{(i+1)} \delta^{(i+1)}$$
 \\
 \\
 \subsection*{A note for implementation:}
@@ -330,6 +339,7 @@ When the network becomes bigger multiplying matrices like $D^{(1)}$ will eat up 
 This can be avoided by using the lesser known Hadamard product $\odot$. 
 \\
 ( \url{https://en.wikipedia.org/wiki/Hadamard_product_(matrices)} )
+\\
 \\
 Instead of
 \[
@@ -344,6 +354,7 @@ a_{0}^{(2)}-T_0 \\ a_{1}^{(2)}-T_1
 (a_0^{(2)}-T_0)a_0^{(2)}(1-a_0^{(2)}) \\ (a_1^{(2)}-T_1)a_1^{(2)}(1-a_1^{(2)})
 \end{pmatrix}
 \]
+\\
 we would write
 \\
 \[
@@ -360,15 +371,18 @@ a_{0}^{(2)}-T_0 \\ a_{1}^{(2)}-T_1
 \end{pmatrix}
 \]
 \\
+This saves both memory and processing time.
 \\
 \\
+\section*{References:}
+\underline{Youtube video:}
 \\
-\\
-\section{References:}
 3BLUE1BROWN SERIES  S3 • A1
 \\
-But what is a Neural Network? | Deep learning, chapter 1 \url{https://www.youtube.com/watch?v=aircAruvnKk&t=12s}
+But what is a Neural Network? | Deep learning, chapter 1 \url{https://www.youtube.com/watch?v=aircAruvnKk}
 \\
+\\
+\underline{Blogs/papers:}
 \\
 \url{https://mattmazur.com/2015/03/17/a-step-by-step-backpropagation-example/}
 \\
@@ -386,7 +400,7 @@ But what is a Neural Network? | Deep learning, chapter 1 \url{https://www.youtub
 \\
 \\
 \section*{Appendix A: Matrices, basic rules}
-A matrix with 3 rows and 2 columns is called a $3\times2$ matrix.
+$\bullet$ A matrix with 3 rows and 2 columns is called a $3\times2$ matrix.
 \begin{quote}
 \textit{Example: A $3 \times 2$ matrix and a $1 \times 3$ matrix}
 \end{quote}
@@ -399,8 +413,8 @@ $$\begin{pmatrix}
 * & * & *\\
 \end{pmatrix}$$
 \\
-Multiplication of a $k\times m$ matrix with a $m \times n$ matrix yields a $k \times n$ matrix.
-\\One simply multiply each entry in the rows in the first matrix with each colum in the second matrix and summarise the result. 
+$\bullet$ Multiplication of a $k\times m$ matrix with a $m \times n$ matrix yields a $k \times n$ matrix.
+\\One simply multiply each entry in the rows in the first matrix with each colum in the second matrix and sum up the result. 
 \begin{quote}
 \textit{Example: A $3 \times 2$ matrix times $1 \times 2$ matrix resulting in a $3 \times 2$ matrix}
 \end{quote}$$
@@ -420,7 +434,7 @@ ak + dl & bk + el
 \end{pmatrix}
 $$
 \\
-A matrix can be multiplied by a vector and the result is a vector of the same size.
+$\bullet$ A matrix can be multiplied by a vector and the result is a vector of the same size.
 \begin{quote}
 \textit{Example: A $2 \times 2$ matrix times a vector resulting in a vector}
 \end{quote}$$
