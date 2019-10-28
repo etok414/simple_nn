@@ -10,7 +10,7 @@ The program **simple_nn.rs** feed binary numbers into a neural net with two hidd
 \
 The note [Back propagtion](./blob/master/latex/Back_propagation.pdf) walk through the theory of an ultra simple neural net in great detail. 
 \
-The aim is to bridge the gab for absolute beginners, who knows simple calculus, but are new to maschine learning.
+The aim is to bridge the gab for absolute beginners, who knows simple calculus, but are new to machine learning.
 \
 \
 The ultra simple net is simulated in a [spread sheet](./Simple_Neural_Net.ods).
