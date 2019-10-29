@@ -50,9 +50,11 @@ The weights between two layers "belongs" to the layer with the higher number and
 \\
 Therefore $w_{01}^{(1)}$ is the weight between the neurons with values $a_1^{(0)}$ and $a_0^{(1)}$.
 \\
-A bias is added to each weighted sum in order to avoid origo ("(0, 0)") always being a minimum.
+A bias is added to each weighted sum in order to avoid origo (Origo: the starting point of the coordinate system. "(0, 0)") always being a minimum.
 \\
-For practical reasons we use just one bias node for each layer with the value 1 and store the actual bias in the last weights in each layer. \\\
+\\
+Instead of keeping tabs of the biases separately we will use a bias node for each layer with a value of 1 and store the actual biases as the weights for this node. This helps keep the matrix formulation simple.
+\\
 Here $w_{02}^{(1)}$ and $w_{12}^{(1)}$ is the biases for layer (1).
 \\
 \\ 
