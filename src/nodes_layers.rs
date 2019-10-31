@@ -125,7 +125,7 @@ struct Layer {
 //A layer of nodes, their biases, and the weights of their connections to the previous layer.
     nodes: Vec<Node>,
     node_count: usize, //Should be equal to nodes.len() and shouldn't change.
-}self.weights[relevant_weight] -= delta * previous_layer_value * learning_rate;
+}
 
 impl Layer {
     pub fn new(previous_layer_nodes: usize, number_of_nodes: usize) -> Layer {
@@ -178,18 +178,18 @@ impl Layer {
         let deltas = Vec::new();
         for node_num in 0..self.node_count {
             deltas.push(self.nodes[node_num].find_delta(
-                                            values[node_num],
-                                            if next_layer.node_count > 0 {node_num as f32} //If the next layer contains anything, desired_value is used to track the position of the relevant node.
-                                                else {desired_values[node_num]}, //Otherwise, desired_value is used to track the desired value.
-                                            next_layer,
-                                            next_layer_deltas
-                                            )
+                                                        values[node_num],
+                                                        if next_layer.node_count > 0 {node_num as f32} //If the next layer contains anything, desired_value is used to track the position of the relevant node.
+                                                            else {desired_values[node_num]}, //Otherwise, desired_value is used to track the desired value.
+                                                        next_layer,
+                                                        next_layer_deltas
+                                                        )
                         );
         }
         deltas
     }
 
-    pub fn alt_adjust(&mut self, deltas: Vec<f32>, previous_layer_values: Vec<f32>) {
+    pub fn alt_adjust(&mut self, deltas: Vec<f32>, previous_layer_values: Vec<f32>, learning_rate: f32) {
         let previous_layer_len = previous_layer_values.len();
         for prev_num in 0..previous_layer_len {
             for num in 0..self.node_count {
@@ -258,9 +258,9 @@ impl Network {
         }
 
         let values = self.calculate(inputs);
-        self.layers[0].alt_adjust(delta_matrix[0], inputs)
+        self.layers[0].alt_adjust(delta_matrix[0], inputs, self.learning_rate)
         for num in 1..self.layer_count {
-            self.layers[num].alt_adjust(delta_matrix[num], values[num-1])
+            self.layers[num].alt_adjust(delta_matrix[num], values[num-1], self.learning_rate)
         }
     }
 }
