@@ -4,6 +4,7 @@
 \graphicspath{ {./images/} }
 \usepackage{hyperref}
 \usepackage[nameinlink,capitalize]{cleveref}
+\usepackage[dvipsnames]{xcolor}
 
 \addtolength{\oddsidemargin}{-.875in}
 \addtolength{\evensidemargin}{-.875in}
@@ -21,15 +22,15 @@ Brains are made up of neurons connected to each other. By making a mathematical 
 In this note we will look at a very simple neural network in detail and show how matrices can be used to describe the processing and learning of the network.
 \\The matrix formulation works for bigger networks as well.
 \\
-\\
 The goal of this note is to look at a simple example in painstaking detail. For more background and analysis go to the links in the references at the end of the note.
 \\
 \\
 \section*{The basic model}
 The network we will consider here consists of two input neurons (or nodes), two output neurones and a single hidden layer with two neurons.
 \\
-That simple a network can only transform two input numbers, say (0.1, 0.9), to two output numbers, say (0.3, 0.4). Implementing more a complex behaviour like an AND-gate is only possible with more neurons in the hidden layer, and/or more layers.
-\\In the Open Office Calc document \textit{Simple\_Neural\_Net.ods} such a 2-2-2 network with a single hidden layer is implemented in a spreadsheet.
+That simple a network can only transform two input numbers, say (0.1, 0.9), to two output numbers, say (0.3, 0.4).
+\\
+In the Open Office Calc document \textit{Simple\_Neural\_Net.ods} such a network is implementet in a spreadsheet.
 \\
 \\
 The layers are numbered with the input layer as (0), the hidden layer as (1) and the output layer as (2). \textit{In this note an upper index in parenthesis refer to the layer.}
@@ -62,7 +63,7 @@ The value of a neuron is a function of the weighted sum of the neuron values fro
 \\
 The function introduces a needed non-linearity and keeps the numbers manageable.
 \\
-A lot of functions can be used, but a common choice is the sigmoid function $\sigma(x) = \dfrac{1}{(1-e^{-x})} = \dfrac{e^{x}}{(1-e^{x})}$ with the practical derivative $\sigma'(x) = \sigma(x)(1 - \sigma(x)) $.
+A lot of functions can be used, but a common choice is the sigmoid function $\sigma(x) = \dfrac{1}{(1-e^{-x})} = \dfrac{e^{x}}{(1-e^{x})}$ with the practical derivative $\sigma(x) = \sigma(x)(1 - \sigma(x)) $.
 \\
 \\
 \begin{figure}[h]
@@ -70,12 +71,7 @@ A lot of functions can be used, but a common choice is the sigmoid function $\si
 \centering
 \end{figure}
 \\
-Note that the use of the sigmoid function nescessitate that the input numbers are close to zero and ascertain that the output values will be positive. One will typically operate in the interval [0; 1] on both input and output if possible.
-\\
-\\
-To train the network input values are fed into the input nodes, the weighted sum is calculated for the hidden layer and then for the output layer. This is called \textit{the forward pass}. Then the output values are compared to target values $T_0, T_1, ...$ and a \textit{cost} is calculated.
-\\
-This cost is a function of all the weights and using the derivative of the cost function with respect to each weight an adjustment to the weights can be \textit{back propagated}.
+To train the network input values are fed into the input nodes, the weighted sum is calculated for the hidden layer and then for the output layer. This is called \textit{the forward pass}.
 \\
 Then the output values are compared to target values $T_0, T_1, ...$ and a \textit{cost} is calculated. This cost is a function of all the weights and using the derivative of the cost function with respect to each weight an adjustment to the weights can be \textit{back propagated}.
 \\
@@ -95,7 +91,7 @@ a_0^{(2)} = \sigma(w_{00}^{(2)}a_0^{(1)}+w_{01}^{(2)}a_1^{(1)}+w_{02}^{(2)})
 \begin{equation} \label{eq:a12}
 a_1^{(2)} = \sigma(w_{10}^{(2)}a_0^{(1)}+w_{11}^{(2)}a_1^{(1)}+w_{12}^{(2)})
 \end{equation}
-Or in matrix notation (see appendix A for the basic rules concerning matrices):
+Or in matrix notation:
 \[
 \vec a^{(1)} = 
 \binom{a_0^{(1)}}{a_1^{(1)}} =
@@ -139,7 +135,6 @@ To minimize the cost we find the derivative of C with respect to each weight in 
 \\
 This derivative can be subtracted from the relevant weights in order to get a better cost value after the next forward pass.
 \\
-\\
 Note that the derivative of \textit{all} weights in \textit{all} layers have to be calculated before \textit{any} weight is changed.
 \\
 \\
@@ -147,15 +142,14 @@ Let's start by finding $\frac{dC}{dw_{00}^{(2)}}$
 \\
 Only the first term of C in equation \eqref{eq:C} include $w_{00}^{(2)}$.
 \\
-\\
 This term is a composite function $f \circ g \circ h(w_{00}^{(2)}, w_{01}^{(2)}, w_{02}^{(2)}, w_{10}^{(2)}, w_{11}^{(2)},w_{12}^{(2)})$ where $f, g$ and $h$ and their derivatives are
-$$f(\sigma) = \frac {1}{2}(\sigma-T_0)^2~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\frac{df}{d\sigma} = (\sigma-T_0)$$
-$$g(h) = \sigma(h)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\frac{dg}{dh} = \frac{d\sigma}{dh} = \sigma(h)(1 - \sigma(h))$$ 
-$$h(w_{00}^{(2)}, w_{01}^{(2)}, w_{02}^{(2)}) = w_{00}^{(2)}a_0^{(1)}+w_{01}^{(2)}a_1^{(1)}+w_{02}^{(2)}~~~~~~~~~~~~~\frac{dh}{dw_{00}^{(2)}} = a_0^{(1)}$$
-By using  \eqref{eq:a02} we note that $$(\sigma - T_0) = (a_0^{(2)} - T_0)$$ and $$\sigma(h)(1-\sigma(h)) =a_0^{(2)}(1-a_0^{(2)})$$ 
+$$f(\sigma) = \frac {1}{2}(\sigma-T_0)^2~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\frac{df}{d\sigma} = \textcolor{blue}{(\sigma-T_0)}$$
+$$g(h) = \sigma(h)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\frac{dg}{dh} = \frac{d\sigma}{dh} = \textcolor{red}{\sigma(h)(1 - \sigma(h))}$$ 
+$$h(w_{00}^{(2)}, w_{01}^{(2)}, w_{02}^{(2)}) = w_{00}^{(2)}a_0^{(1)}+w_{01}^{(2)}a_1^{(1)}+w_{02}^{(2)}~~~~~~~~\frac{dh}{dw_{00}^{(2)}} = \textcolor{Cerulean}{a_0^{(1)}}$$
+By using  \eqref{eq:a02} we note that $$(\sigma - T_0) = \textcolor{blue}{(a_0^{(2)} - T_0)}$$ and $$\sigma(h)(1-\sigma(h)) = \textcolor{red}{a_0^{(2)}(1-a_0^{(2)})}$$ 
 \\ The chain rule $$\frac{dC}{dw_{00}^{(2)}} = \frac{df}{d\sigma}~\frac{d\sigma}{dh}~\frac{dh}{dw_{00}^{(2)}}$$ 
 then gives us
-$\frac{dC}{dw_{00}^{(2)}} = (a_0^{(2)}-T_0)~a_0^{(2)}(1-a_0^{(2)})~a_0^{(1)} $, the first entry in the change matrix.
+$\frac{dC}{dw_{00}^{(2)}} = \textcolor{blue}{(a_0^{(2)}-T_0)}~\textcolor{red}{a_0^{(2)}(1-a_0^{(2)})}~\textcolor{Cerulean}{a_0^{(1)}} $, the first entry in the change matrix.
 \\
 \\
 The rest is found in a similar manner:
@@ -173,7 +167,7 @@ $$\begin{pmatrix}
 We note that each entry in the upper row contains $\delta_0^{(2)} = (a_0^{(2)}-T_0)a_0^{(2)}(1-a_0^{(2)})$ and that each entry in the lower row contains $\delta_1^{(2)} = (a_1^{(2)}-T_1)a_1^{(2)}(1-a_1^{(2)})$.
 \\
 \\
-Therefore the \textit{transposed} change matrix for layer (2) is $${\frac{dC}{dW^{(2)}}}^T = 
+Therefore the \textit{transposed} change matrix for layer (2) is $$\frac{dC}{dW^{(2)}} = 
 \begin{pmatrix}
 \frac{dC}{dw_{00}^{(2)}} & \frac{dC}{dw_{01}^{(2)}} & \frac{dC}{dw_{02}^{(2)}}
 \\\\
@@ -187,13 +181,8 @@ $$
 where $\delta^{(2)} = \binom{\delta_0^{(2)}}{\delta_1^{(2)}}$
 and we had $A^{(1)} = (a_0^{(1)} a_1^{(1)} 1)$.
 \\
-After all change matrices is found the change is applied to all weights.
-\\
-For layer (2) this will be $$W^{(2)} = W^{(2)} - \gamma \cdot \frac{dC}{dW^{(2)}}$$
-where $\gamma$ is a number between 0 and 1 called the \textit{learning rate}. A good start value for $\gamma$ is usually 0.5
-\\
-Remember to transpose the change matrix before subtracting it from the weight matrix.
-\\
+After all change matrices is found the change is applied to all weights. For layer (2) this will be $$W^{(2)} = W^{(2)} - \gamma \cdot \frac{dC}{dW^{(2)}}$$
+where $\gamma$ is a number between 0 and 1 called the learning rate. A good start value for $\gamma$ is usually 0.5
 \\
 \\
 To find how much each weight in layer (1) have to change we can use \eqref{eq:a01} and \eqref{eq:a11} in \eqref{eq:C}
@@ -239,28 +228,25 @@ where $\delta^{(1)}=\binom{\delta_0^{(1)}}{\delta_1^{(1)}}$ and $A^{(0)}=(a_{0}^
 \\
 By introducing the matrices
 \\
-\\
-$$c = 
+$c = 
 \begin{pmatrix}
 a_{0}^{(2)}-T_{0} \\ a_{1}^{(2)}-T_{1}
-\end{pmatrix} ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ w_{2} = 
+\end{pmatrix}$ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ $w_{2} = 
 \begin{pmatrix}
 w_{00}^{(2)} & w_{01}^{(2)} \\ w_{10}^{(2)} & w_{11}^{(2)}
-\end{pmatrix}$$
+\end{pmatrix}$
 \\
 \\
-$$D^{(2)} = 
+$D^{(2)} = 
 \begin{pmatrix}
 a_{0}^{(2)}(1-a_{0}^{(2)}) & 0 \\
 0 & a_{1}^{(2)}(1-a_{1}^{(2)})
-\end{pmatrix}~~~~~~~~
-D^{(1)} = 
+\end{pmatrix}$~~~~~~~~
+$D^{(1)} = 
 \begin{pmatrix}
 a_{0}^{(1)}(1-a_{0}^{(1)}) & 0 \\
 0 & a_{0}^{(1)}(1-a_{0}^{(1)})
-\end{pmatrix}$$
-\\
-\\
+\end{pmatrix}$
 \\
 we can write $\delta^{(2)} = 
 \begin{pmatrix}
@@ -278,9 +264,7 @@ a_{0}^{(2)}-T_0 \\ a_{1}^{(2)}-T_1
 (a_0^{(2)}-T_0)a_0^{(2)}(1-a_0^{(2)}) \\ (a_1^{(2)}-T_1)a_1^{(2)}(1-a_1^{(2)})
 \end{pmatrix}$
 \\
-\\
 Then 
-\\
 \[
 D^{(1)} w^{(2)} \delta^{(2)} = 
 \begin{pmatrix}
@@ -294,7 +278,6 @@ w_{00}^{(2)} & w_{01}^{(2)} \\ w_{10}^{(2)} & w_{11}^{(2)}
 \delta_{0}^{(2)} \\ \delta_{1}^{(2)}
 \end{pmatrix}
 \]
-\\
 \[
 = 
 \begin{pmatrix}
@@ -313,7 +296,6 @@ w_{01}^{(2)} a_{1}^{(1)}(1-a_{1}^{(1)}) & w_{11}^{(2)} a_{1}^{(1)}(1-a_{1}^{(1)}
 \end{pmatrix} = \delta^{(1)}
 \]
 \\
-\\
 To summarise 
 \[
 \frac{dC}{dW^{(1)}} = \delta^{(1)} A^{(0)} = D^{(1)} w^{(2)} \delta^{(2)}  A^{(0)}
@@ -323,25 +305,15 @@ and
 \frac{dC}{dW^{(2)}} = \delta^{(2)} A^{(1)} 
 \]
 \\
-$\delta$ is sometimes called the "error" because it tell us how much the weights have to change, and part of $\delta$ is the difference between the output and the target $(a_{0}^{(2)}-T_0)$.
+$\delta$ is sometimes called the "error" because it tell us how much the weights have to change, and part of $\delta$ is the difference between the output and the target $(a_{0}^{(2)}-T_0)$. We also see that neurons with high values of $a$ contribute more to the change matrix, kind of like more active neurons in a biological network tend to reinforce learning in the network.
 \\
+A note for implementation:
 \\
-We also see that neurons with high values of $a$ contribute more to the change matrix, kind of like more active neurons in a biological network tend to reinforce learning in the network.
-\\
-\\
-\section*{Bigger networks}
-When we add neurons to a layer nothing changes if we use matrix notation, except for the size of the matrices.
-\\
-If we introduce new layers the changes to the forward pass is trivia and the back propagation between each layer is done as before; we just find the new $\delta$'s as $$\delta^{(i)} = D^{(i)} w^{(i+1)} \delta^{(i+1)}$$
-\\
-\\
-\subsection*{A note for implementation:}
 When the network becomes bigger multiplying matrices like $D^{(1)}$ will eat up unnecessary computer cycles due to the many zeroes in diagonal matrices.
 \\
 This can be avoided by using the lesser known Hadamard product $\odot$. 
 \\
 ( \url{https://en.wikipedia.org/wiki/Hadamard_product_(matrices)} )
-\\
 \\
 Instead of
 \[
@@ -356,7 +328,6 @@ a_{0}^{(2)}-T_0 \\ a_{1}^{(2)}-T_1
 (a_0^{(2)}-T_0)a_0^{(2)}(1-a_0^{(2)}) \\ (a_1^{(2)}-T_1)a_1^{(2)}(1-a_1^{(2)})
 \end{pmatrix}
 \]
-\\
 we would write
 \\
 \[
@@ -373,19 +344,11 @@ a_{0}^{(2)}-T_0 \\ a_{1}^{(2)}-T_1
 \end{pmatrix}
 \]
 \\
-This saves both memory and processing time.
 \\
 \\
-\section*{References:}
-\underline{Youtube video:}
-\\
-3BLUE1BROWN SERIES  S3 • A1
-\\
-But what is a Neural Network? | Deep learning, chapter 1 \url{https://www.youtube.com/watch?v=aircAruvnKk}
 \\
 \\
-\underline{Blogs/papers:}
-\\
+\section{References:}
 \url{https://mattmazur.com/2015/03/17/a-step-by-step-backpropagation-example/}
 \\
 \url{https://page.mi.fu-berlin.de/rojas/neural/chapter/K7.pdf}
@@ -395,63 +358,5 @@ But what is a Neural Network? | Deep learning, chapter 1 \url{https://www.youtub
 \url{http://cs231n.stanford.edu/handouts/linear-backprop.pdf}
 \\
 \url{https://sudeepraja.github.io/Neural/}
-\\
-\\
-\\
-\\
-\\
-\\
-\section*{Appendix A: Matrices, basic rules}
-$\bullet$ A matrix with 3 rows and 2 columns is called a $3\times2$ matrix.
-\begin{quote}
-\textit{Example: A $3 \times 2$ matrix and a $1 \times 3$ matrix}
-\end{quote}
-$$\begin{pmatrix}
-* & * \\
-* & * \\
-* & * \\
-\end{pmatrix}~~~~~~~~~~~~~~~~
-\begin{pmatrix}
-* & * & *\\
-\end{pmatrix}$$
-\\
-$\bullet$ Multiplication of a $k\times m$ matrix with a $m \times n$ matrix yields a $k \times n$ matrix.
-\\One simply multiply each entry in the rows in the first matrix with each colum in the second matrix and sum up the result. 
-\begin{quote}
-\textit{Example: A $3 \times 2$ matrix times $1 \times 2$ matrix resulting in a $3 \times 2$ matrix}
-\end{quote}$$
-\begin{pmatrix}
-g & h \\
-i & j \\
-k & l \\
-\end{pmatrix}
-\begin{pmatrix}
-a & b \\
-d & e \\
-\end{pmatrix}=
-\begin{pmatrix}
-ag + dh & bg + eh \\
-ai + dj & bi + ej \\
-ak + dl & bk + el
-\end{pmatrix}
-$$
-\\
-$\bullet$ A matrix can be multiplied by a vector and the result is a vector of the same size.
-\begin{quote}
-\textit{Example: A $2 \times 2$ matrix times a vector resulting in a vector}
-\end{quote}$$
-\begin{pmatrix}
-a & b \\
-d & e \\
-\end{pmatrix}
-\begin{pmatrix}
-f \\
-g \\
-\end{pmatrix} =
-\begin{pmatrix}
-af + bg \\
-df + eg \\
-\end{pmatrix}
-$$
 \\
 \end{document}
