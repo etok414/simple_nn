@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2019.10.22)  30 OCT 2019 12:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7200 64-bit) (preloaded format=pdflatex 2019.10.22)  4 NOV 2019 17:22
 entering extended mode
 **./Back_propagation.tex
 (Back_propagation.tex
@@ -287,20 +287,20 @@ File: dvipsnam.def 2016/06/17 v3.0m Driver-dependent file (DPC,SPQR)
 )) (Back_propagation.aux)
 \openout1 = `Back_propagation.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 17.
-LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 26.
+LaTeX Font Info:    ... okay on input line 26.
 
 ("C:\Users\Mads Horn\AppData\Local\Programs\MiKTeX 2.9\tex/context/base/mkii\su
 pp-pdf.mkii"
@@ -333,7 +333,7 @@ G,.JBIG2,.JB2,.eps]
 (grfext)             \AppendGraphicsExtensions on input line 456.
 )
 \AtBeginShipoutBox=\box30
-Package hyperref Info: Link coloring OFF on input line 17.
+Package hyperref Info: Link coloring OFF on input line 26.
 
 ("C:\Users\Mads Horn\AppData\Local\Programs\MiKTeX 2.9\tex/latex/hyperref\namer
 ef.sty"
@@ -345,49 +345,45 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count116
 )
-LaTeX Info: Redefining \ref on input line 17.
-LaTeX Info: Redefining \pageref on input line 17.
-LaTeX Info: Redefining \nameref on input line 17.
+LaTeX Info: Redefining \ref on input line 26.
+LaTeX Info: Redefining \pageref on input line 26.
+LaTeX Info: Redefining \nameref on input line 26.
  (Back_propagation.out) (Back_propagation.out)
 \@outlinefile=\write3
 \openout3 = `Back_propagation.out'.
 
 
-
-LaTeX Warning: No \author given.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 20--28
+Underfull \hbox (badness 10000) in paragraph at lines 29--37
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 20--28
+Underfull \hbox (badness 10000) in paragraph at lines 29--37
 
  []
 
-<./images/two_neuron_net.png, id=7, 645.41125pt x 360.34625pt>
+<./images/two_neuron_net.png, id=4, 645.41125pt x 360.34625pt>
 File: ./images/two_neuron_net.png Graphic file (type png)
 <use ./images/two_neuron_net.png>
-Package pdftex.def Info: ./images/two_neuron_net.png  used on input line 44.
+Package pdftex.def Info: ./images/two_neuron_net.png  used on input line 53.
 (pdftex.def)             Requested size: 258.15993pt x 144.13594pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 29--62
+Underfull \hbox (badness 10000) in paragraph at lines 38--71
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 29--62
+Underfull \hbox (badness 10000) in paragraph at lines 38--71
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 29--62
+Underfull \hbox (badness 10000) in paragraph at lines 38--71
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 29--62
+Underfull \hbox (badness 10000) in paragraph at lines 38--71
 
  []
 
@@ -395,141 +391,170 @@ Underfull \hbox (badness 10000) in paragraph at lines 29--62
 
 {C:/Users/Mads Horn/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <./image
 s/two_neuron_net.png>]
-<./images/sigmoid.png, id=24, 344.28625pt x 130.98938pt>
+<./images/sigmoid.png, id=22, 344.28625pt x 130.98938pt>
 File: ./images/sigmoid.png Graphic file (type png)
 <use ./images/sigmoid.png>
-Package pdftex.def Info: ./images/sigmoid.png  used on input line 70.
+Package pdftex.def Info: ./images/sigmoid.png  used on input line 79.
 (pdftex.def)             Requested size: 172.1427pt x 65.49452pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 62--78
+Underfull \hbox (badness 10000) in paragraph at lines 71--87
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 62--78
+Underfull \hbox (badness 10000) in paragraph at lines 71--87
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 79--81
+Underfull \hbox (badness 10000) in paragraph at lines 88--90
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 86--88
+Underfull \hbox (badness 10000) in paragraph at lines 95--97
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 110--115
+Underfull \hbox (badness 10000) in paragraph at lines 119--124
 
  []
 
 [2 <./images/sigmoid.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 116--123
+Underfull \hbox (badness 10000) in paragraph at lines 125--132
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 132--146
+Underfull \hbox (badness 10000) in paragraph at lines 141--155
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 150--156
+Underfull \hbox (badness 10000) in paragraph at lines 159--165
 
  []
 
 [3]
-Underfull \hbox (badness 10000) in paragraph at lines 166--170
+Underfull \hbox (badness 10000) in paragraph at lines 175--179
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 184--189
+Underfull \hbox (badness 10000) in paragraph at lines 193--198
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 197--203
+Overfull \hbox (40.59444pt too wide) in paragraph at lines 206--211
+\OT1/cmr/m/n/10 The first term is again a com-pos-ite func-tion, just a lit-tle
+ more com-pli-cated: $\OML/cmm/m/it/10 f \OMS/cmsy/m/n/10  \OML/cmm/m/it/10 g 
+\OMS/cmsy/m/n/10  \OML/cmm/m/it/10 h \OMS/cmsy/m/n/10  \OML/cmm/m/it/10 k \OM
+S/cmsy/m/n/10  \OML/cmm/m/it/10 m\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 w[]; w[]; w
+[]; w[]; w[]; w[]\OT1/cmr/m/n/10 )$
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 215--219
 
  []
 
 [4]
-Underfull \hbox (badness 10000) in paragraph at lines 225--268
+Underfull \hbox (badness 10000) in paragraph at lines 241--284
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 225--268
+Underfull \hbox (badness 10000) in paragraph at lines 241--284
 
  []
 
 
-Overfull \hbox (25.74078pt too wide) in paragraph at lines 225--268
+Overfull \hbox (25.74078pt too wide) in paragraph at lines 241--284
 \OT1/cmr/m/n/10 we can write $\OML/cmm/m/it/10 [] \OT1/cmr/m/n/10 = [] = \OML/
 cmm/m/it/10 D[] \OMS/cmsy/m/n/10  \OML/cmm/m/it/10 c \OT1/cmr/m/n/10 = [] [] =
  []$ 
  []
 
 
-Overfull \hbox (44.93414pt too wide) detected at line 297
+Overfull \hbox (44.93414pt too wide) detected at line 313
 \OT1/cmr/m/n/10 = [] [] = [] = [] = \OML/cmm/m/it/10 []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 330--333
+Underfull \hbox (badness 10000) in paragraph at lines 346--349
+
+ []
+
+[5]
+Underfull \hbox (badness 10000) in paragraph at lines 361--368
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 345--351
+Underfull \hbox (badness 10000) in paragraph at lines 361--368
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 345--351
+Underfull \hbox (badness 10000) in paragraph at lines 361--368
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 345--351
+Underfull \hbox (badness 10000) in paragraph at lines 361--368
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 345--351
+Underfull \hbox (badness 10000) in paragraph at lines 361--368
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 345--351
+Underfull \hbox (badness 10000) in paragraph at lines 372--374
 
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 362.
 
-Underfull \hbox (badness 10000) in paragraph at lines 352--362
+Underfull \hbox (badness 10000) in paragraph at lines 374--376
 
  []
 
-[5] [6]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 362.
+
+Underfull \hbox (badness 10000) in paragraph at lines 376--378
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 378--380
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 380--382
+
+ []
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 383.
+[6]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 383.
  (Back_propagation.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 362.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 362.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 383.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 383.
 Package rerunfilecheck Info: File `Back_propagation.out' has not changed.
-(rerunfilecheck)             Checksum: 80DE5938800399ACE0AA5EEC19308263;46.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 362.
+(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 383.
  ) 
 Here is how much of TeX's memory you used:
- 7813 strings out of 492453
- 127634 string characters out of 3118205
- 247564 words of memory out of 3000000
- 12112 multiletter control sequences out of 15000+200000
+ 7826 strings out of 492453
+ 127794 string characters out of 3118205
+ 249564 words of memory out of 3000000
+ 12120 multiletter control sequences out of 15000+200000
  8922 words of font info for 33 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 31i,9n,37p,403b,325s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 31i,10n,37p,403b,325s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/Mads Horn/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsf
 onts/cm/cmbx12.pfb><C:/Users/Mads Horn/AppData/Local/Programs/MiKTeX 2.9/fonts/
 type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Mads Horn/AppData/Local/Programs/
@@ -546,9 +571,9 @@ ads Horn/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy1
 amsfonts/cm/cmsy7.pfb><C:/Users/Mads Horn/AppData/Local/Programs/MiKTeX 2.9/fon
 ts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Mads Horn/AppData/Local/Progra
 ms/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on Back_propagation.pdf (6 pages, 205548 bytes).
+Output written on Back_propagation.pdf (6 pages, 209849 bytes).
 PDF statistics:
- 120 PDF objects out of 1000 (max. 8388607)
- 18 named destinations out of 1000 (max. 500000)
- 19 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 123 PDF objects out of 1000 (max. 8388607)
+ 23 named destinations out of 1000 (max. 500000)
+ 11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

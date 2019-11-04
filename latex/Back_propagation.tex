@@ -6,6 +6,14 @@
 \usepackage[nameinlink,capitalize]{cleveref}
 \usepackage[dvipsnames]{xcolor}
 
+\definecolor{green}{RGB}{0, 152, 112}
+\definecolor{orange}{RGB}{230, 160, 0}
+\definecolor{ligthblue}{RGB}{154, 208, 243}
+\definecolor{darkblue}{RGB}{0, 116, 180}
+\definecolor{orangered}{RGB}{213, 94, 0}
+\definecolor{lavender}{RGB}{203, 121, 167}
+\definecolor{yellow}{RGB}{240, 228, 66}
+
 \addtolength{\oddsidemargin}{-.875in}
 \addtolength{\evensidemargin}{-.875in}
 \addtolength{\textwidth}{1.75in}
@@ -13,6 +21,7 @@
 \addtolength{\textheight}{1.75in}
 
 \title{\normalfont{Back propagation in a simple neural net}}
+\author{HappyDustbunny}
 
 \begin{document}
 \maketitle
@@ -22,7 +31,7 @@ Brains are made up of neurons connected to each other. By making a mathematical 
 In this note we will look at a very simple neural network in detail and show how matrices can be used to describe the processing and learning of the network.
 \\The matrix formulation works for bigger networks as well.
 \\
-The goal of this note is to look at a simple example in painstaking detail. For more background and analysis go to the links in the references at the end of the note.
+The goal of this note is to look at a simple example in painstaking detail. For more background and analysis go to the links in the references at the end of the note. \cite{Mazur}
 \\
 \\
 \section*{The basic model}
@@ -58,7 +67,7 @@ Instead of keeping tabs of the biases separately we will use a bias node for eac
 \\
 Here $w_{02}^{(1)}$ and $w_{12}^{(1)}$ is the biases for layer (1).
 \\
-\\ 
+\\
 The value of a neuron is a function of the weighted sum of the neuron values from previous layers. $$a_0^{(1)} = f(\sum_{i=0}^{1}{w_{0i}^{(1)}a_i^{(0)}}+w_{12}^{(1)})$$
 \\
 The function introduces a needed non-linearity and keeps the numbers manageable.
@@ -93,16 +102,16 @@ a_1^{(2)} = \sigma(w_{10}^{(2)}a_0^{(1)}+w_{11}^{(2)}a_1^{(1)}+w_{12}^{(2)})
 \end{equation}
 Or in matrix notation:
 \[
-\vec a^{(1)} = 
+\vec a^{(1)} =
 \binom{a_0^{(1)}}{a_1^{(1)}} =
-\sigma \left ( \binom{w_{00}^{(1)}a_0^{(0)}+w_{01}^{(1)}a_1^{(0)}+w_{02}^{(1)}}{w_{10}^{(1)}a_0^{(0)}+w_{11}^{(1)}a_1^{(0)}+w_{12}^{(1)}} \right ) 
+\sigma \left ( \binom{w_{00}^{(1)}a_0^{(0)}+w_{01}^{(1)}a_1^{(0)}+w_{02}^{(1)}}{w_{10}^{(1)}a_0^{(0)}+w_{11}^{(1)}a_1^{(0)}+w_{12}^{(1)}} \right )
 = \sigma\left((a_0^{(0)} a_1^{(0)} 1)
 \begin{pmatrix}
 w_{00}^{(1)} & w_{10}^{(1)} \\
 w_{01}^{(1)} & w_{11}^{(1)} \\
  w_{02}^{(1)} & w_{12}^{(1)}
 \end{pmatrix}\right)
-= \sigma(\vec A^{(0)}W^{(1)}) 
+= \sigma(\vec A^{(0)}W^{(1)})
 \]
 In the same way
 \[
@@ -114,7 +123,7 @@ $\vec A^{(1)}$ is needed to include the biases in some calculations.
 \\
 \section*{Back propagation}
 To train the network we need a measure of how far the output values $\vec a^{(2)}$ are from the target values $\vec T$. As mentioned before this measure is called \textit{the cost function}.
-\\ 
+\\
 We define the cost as the difference between output values and target values. To avoid negative numbers we square the difference before we sum up the differnces.
 \\
 And as the cost is just a number we want to minimize, we can multiply with $\frac{1}{2}$ to simplify the derivative.
@@ -123,9 +132,9 @@ And as the cost is just a number we want to minimize, we can multiply with $\fra
 In this case the cost function will be $$ C = \frac {1}{2}(a_0^{(2)}-T_0)^2 + \frac {1}{2}(a_1^{(2)}-T_1)^2 $$
 or using \eqref{eq:a02} and \eqref{eq:a12}
 
-\begin{equation} \label{eq:C} 
+\begin{equation} \label{eq:C}
 \begin{aligned}
-C = \frac {1}{2}(\sigma(w_{00}^{(2)}a_0^{(1)}+w_{01}^{(2)}a_1^{(1)}+w_{02}^{(2)})-T_0)^2 + 
+C = \frac {1}{2}(\sigma(w_{00}^{(2)}a_0^{(1)}+w_{01}^{(2)}a_1^{(1)}+w_{02}^{(2)})-T_0)^2 +
 \\
 \frac {1}{2}(\sigma(w_{10}^{(2)}a_0^{(1)}+w_{11}^{(2)}a_1^{(1)}+w_{12}^{(2)})-T_1)^2
 \end{aligned}
@@ -143,20 +152,20 @@ Let's start by finding $\frac{dC}{dw_{00}^{(2)}}$
 Only the first term of C in equation \eqref{eq:C} include $w_{00}^{(2)}$.
 \\
 This term is a composite function $f \circ g \circ h(w_{00}^{(2)}, w_{01}^{(2)}, w_{02}^{(2)}, w_{10}^{(2)}, w_{11}^{(2)},w_{12}^{(2)})$ where $f, g$ and $h$ and their derivatives are
-$$f(\sigma) = \frac {1}{2}(\sigma-T_0)^2~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\frac{df}{d\sigma} = \textcolor{blue}{(\sigma-T_0)}$$
-$$g(h) = \sigma(h)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\frac{dg}{dh} = \frac{d\sigma}{dh} = \textcolor{red}{\sigma(h)(1 - \sigma(h))}$$ 
-$$h(w_{00}^{(2)}, w_{01}^{(2)}, w_{02}^{(2)}) = w_{00}^{(2)}a_0^{(1)}+w_{01}^{(2)}a_1^{(1)}+w_{02}^{(2)}~~~~~~~~\frac{dh}{dw_{00}^{(2)}} = \textcolor{Cerulean}{a_0^{(1)}}$$
-By using  \eqref{eq:a02} we note that $$(\sigma - T_0) = \textcolor{blue}{(a_0^{(2)} - T_0)}$$ and $$\sigma(h)(1-\sigma(h)) = \textcolor{red}{a_0^{(2)}(1-a_0^{(2)})}$$ 
-\\ The chain rule $$\frac{dC}{dw_{00}^{(2)}} = \frac{df}{d\sigma}~\frac{d\sigma}{dh}~\frac{dh}{dw_{00}^{(2)}}$$ 
+$$f(\sigma) = \frac {1}{2}(\sigma-T_0)^2~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\frac{df}{d\sigma} = \textcolor{darkblue}{(\sigma-T_0)}$$
+$$g(h) = \sigma(h)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\frac{dg}{dh} = \frac{d\sigma}{dh} = \textcolor{green}{\sigma(h)(1 - \sigma(h))}$$
+$$h(w_{00}^{(2)}, w_{01}^{(2)}, w_{02}^{(2)}) = w_{00}^{(2)}a_0^{(1)}+w_{01}^{(2)}a_1^{(1)}+w_{02}^{(2)}~~~~~~~~\frac{dh}{dw_{00}^{(2)}} = \textcolor{orange}{a_0^{(1)}}$$
+By using  \eqref{eq:a02} we note that $$(\sigma - T_0) = \textcolor{darkblue}{(a_0^{(2)} - T_0)}$$ and $$\sigma(h)(1-\sigma(h)) = \textcolor{green}{a_0^{(2)}(1-a_0^{(2)})}$$
+\\ The chain rule $$\frac{dC}{dw_{00}^{(2)}} = \frac{df}{d\sigma}~\frac{d\sigma}{dh}~\frac{dh}{dw_{00}^{(2)}}$$
 then gives us
-$\frac{dC}{dw_{00}^{(2)}} = \textcolor{blue}{(a_0^{(2)}-T_0)}~\textcolor{red}{a_0^{(2)}(1-a_0^{(2)})}~\textcolor{Cerulean}{a_0^{(1)}} $, the first entry in the change matrix.
+$\frac{dC}{dw_{00}^{(2)}} = \textcolor{darkblue}{(a_0^{(2)}-T_0)}~\textcolor{green}{a_0^{(2)}(1-a_0^{(2)})}~\textcolor{orange}{a_0^{(1)}} $, the first entry in the change matrix.
 \\
 \\
 The rest is found in a similar manner:
 $$\begin{pmatrix}
 \frac{dC}{dw_{00}^{(2)}} & \frac{dC}{dw_{01}^{(2)}} & \frac{dC}{dw_{02}^{(2)}}
 \\\\
-\frac{dC}{dw_{10}^{(2)}} & \frac{dC}{dw_{11}^{(2)}} & \frac{dC}{dw_{12}^{(2)}} 
+\frac{dC}{dw_{10}^{(2)}} & \frac{dC}{dw_{11}^{(2)}} & \frac{dC}{dw_{12}^{(2)}}
 \end{pmatrix} =
 $$
 $$\begin{pmatrix}
@@ -167,11 +176,11 @@ $$\begin{pmatrix}
 We note that each entry in the upper row contains $\delta_0^{(2)} = (a_0^{(2)}-T_0)a_0^{(2)}(1-a_0^{(2)})$ and that each entry in the lower row contains $\delta_1^{(2)} = (a_1^{(2)}-T_1)a_1^{(2)}(1-a_1^{(2)})$.
 \\
 \\
-Therefore the \textit{transposed} change matrix for layer (2) is $$\frac{dC}{dW^{(2)}} = 
+Therefore the \textit{transposed} change matrix for layer (2) is $$\frac{dC}{dW^{(2)}} =
 \begin{pmatrix}
 \frac{dC}{dw_{00}^{(2)}} & \frac{dC}{dw_{01}^{(2)}} & \frac{dC}{dw_{02}^{(2)}}
 \\\\
-\frac{dC}{dw_{10}^{(2)}} & \frac{dC}{dw_{11}^{(2)}} & \frac{dC}{dw_{12}^{(2)}} 
+\frac{dC}{dw_{10}^{(2)}} & \frac{dC}{dw_{11}^{(2)}} & \frac{dC}{dw_{12}^{(2)}}
 \end{pmatrix} = \begin{pmatrix}
 \delta_0^{(2)}a_0^{(1)} & \delta_0^{(2)}a_1^{(1)} & \delta_0^{(2)} \cdot 1
 \\\\
@@ -185,18 +194,25 @@ After all change matrices is found the change is applied to all weights. For lay
 where $\gamma$ is a number between 0 and 1 called the learning rate. A good start value for $\gamma$ is usually 0.5
 \\
 \\
-To find how much each weight in layer (1) have to change we can use \eqref{eq:a01} and \eqref{eq:a11} in \eqref{eq:C}
+To find how much each weight in layer (1) have to change we can use \textcolor{green}{\eqref{eq:a01}} and \textcolor{darkblue}{\eqref{eq:a11}} in \eqref{eq:C}
 
-\begin{equation} \label{eq:C1} 
+\begin{equation} \label{eq:C1}
 \begin{aligned}
-C = \frac {1}{2} \left(\sigma\left(w_{00}^{(2)}\sigma(w_{00}^{(1)}a_0^{(0)}+w_{01}^{(1)}a_1^{(0)}+w_{02}^{(1)})
-+w_{01}^{(2)}\sigma(w_{10}^{(1)}a_0^{(0)}+w_{11}^{(1)}a_1^{(0)}+w_{12}^{(1)})+w_{02}^{(2)}\right)-T_0\right)^2 + 
+C = \frac {1}{2} \left(\sigma\left(w_{00}^{(2)}\textcolor{green}{\sigma(w_{00}^{(1)}a_0^{(0)}+w_{01}^{(1)}a_1^{(0)}+w_{02}^{(1)})}
++w_{01}^{(2)}\textcolor{darkblue}{\sigma(w_{10}^{(1)}a_0^{(0)}+w_{11}^{(1)}a_1^{(0)}+w_{12}^{(1)})}+w_{02}^{(2)}\right)-T_0\right)^2 +
 \\
-\frac {1}{2}\left(\sigma\left(w_{10}^{(2)}\sigma(w_{00}^{(1)}a_0^{(0)}+w_{01}^{(1)}a_0^{(0)}+w_{02}^{(1)})+w_{11}^{(2)}\sigma(w_{10}^{(1)}a_0^{(0)}+w_{11}^{(1)}a_1^{(0)}+w_{12}^{(1)})+w_{12}^{(2)}\right)-T_1\right)^2
+\frac {1}{2}\left(\sigma\left(w_{10}^{(2)}\textcolor{green}{\sigma(w_{00}^{(1)}a_0^{(0)}+w_{01}^{(1)}a_0^{(0)}+w_{02}^{(1)})}+w_{11}^{(2)}\textcolor{darkblue}{\sigma(w_{10}^{(1)}a_0^{(0)}+w_{11}^{(1)}a_1^{(0)}+w_{12}^{(1)})}+w_{12}^{(2)}\right)-T_1\right)^2
 \end{aligned}
 \end{equation}
 \\
-We want to find $\frac{dC}{dw_{00}^{(1)}}$ and note that $dw_{00}^{(1)}$ occur in both terms of \eqref{eq:C1}. The composite function is a little more complicated, but nothing new happens.
+We want to find $\frac{dC}{dw_{00}^{(1)}}$ and note that $w_{00}^{(1)}$ occur in both terms of \eqref{eq:C1}.
+\\
+The first term is again a composite function, just a little more complicated: $f \circ g \circ h \circ k \circ m(w_{00}^{(2)}, w_{01}^{(2)}, w_{02}^{(2)}, w_{10}^{(2)}, w_{11}^{(2)},w_{12}^{(2)})$ where $f, g$, $h$, $k$ and $m$ and their derivatives are
+$$f(\sigma) = \frac {1}{2}(\sigma-T_0)^2~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\frac{df}{d\sigma} = \textcolor{darkblue}{(\sigma-T_0)}$$
+$$g(h) = \sigma(h)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\frac{dg}{dh} = \frac{d\sigma}{dh} = \textcolor{green}{\sigma(h)(1 - \sigma(h))}$$
+$$h(w_{00}^{(2)}, w_{01}^{(2)}, w_{02}^{(2)}) = w_{00}^{(2)}a_0^{(1)}+w_{01}^{(2)}a_1^{(1)}+w_{02}^{(2)}~~~~~~~~\frac{dh}{dw_{00}^{(2)}} = \textcolor{orange}{a_0^{(1)}}$$
+$$k(m) = \sigma(m)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\frac{dk}{dm} = \frac{d\sigma}{dm} = \textcolor{blue}{\sigma(m)(1 - \sigma(m))}$$
+$$m(w_{00}^{(1)}, w_{01}^{(1)}, w_{02}^{(1)}) = w_{00}^{(1)}a_0^{(0)}+w_{01}^{(1)}a_1^{(0)}+w_{02}^{(1)}~~~~~~~~\frac{dh}{dw_{00}^{(1)}} = \textcolor{orange}{a_0^{(0)}}$$.
 \\
 \\
 A little work will show that
@@ -213,11 +229,11 @@ and by letting $\delta_0^{(1)}=a_0^{(1)}(1-a_0^{(1)})\sum_{i=0}^{1}\delta_i^{(2)
 $\frac{dC}{dw_{00}^{(1)}} = \delta_0^{(1)}a_0^{(0)}$
 \\
 With $\delta_1^{(1)}=a_1^{(1)}(1-a_1^{(1)})\sum_{i=0}^{1}\delta_i^{(2)}w_{i1}^{(2)}$ the transposed change matrix for layer (1) is
-$$\frac{dC}{dW^{(1)}} = 
+$$\frac{dC}{dW^{(1)}} =
 \begin{pmatrix}
 \frac{dC}{dw_{00}^{(1)}} & \frac{dC}{dw_{01}^{(1)}} & \frac{dC}{dw_{02}^{(1)}}
 \\\\
-\frac{dC}{dw_{10}^{(1)}} & \frac{dC}{dw_{11}^{(1)}} & \frac{dC}{dw_{12}^{(1)}} 
+\frac{dC}{dw_{10}^{(1)}} & \frac{dC}{dw_{11}^{(1)}} & \frac{dC}{dw_{12}^{(1)}}
 \end{pmatrix} = \begin{pmatrix}
 \delta_0^{(1)}a_0^{(0} & \delta_0^{(1)}a_1^{(0)} & \delta_0^{(1)} \cdot 1
 \\\\
@@ -228,45 +244,45 @@ where $\delta^{(1)}=\binom{\delta_0^{(1)}}{\delta_1^{(1)}}$ and $A^{(0)}=(a_{0}^
 \\
 By introducing the matrices
 \\
-$c = 
+$c =
 \begin{pmatrix}
 a_{0}^{(2)}-T_{0} \\ a_{1}^{(2)}-T_{1}
-\end{pmatrix}$ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ $w_{2} = 
+\end{pmatrix}$ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ $w_{2} =
 \begin{pmatrix}
 w_{00}^{(2)} & w_{01}^{(2)} \\ w_{10}^{(2)} & w_{11}^{(2)}
 \end{pmatrix}$
 \\
 \\
-$D^{(2)} = 
+$D^{(2)} =
 \begin{pmatrix}
 a_{0}^{(2)}(1-a_{0}^{(2)}) & 0 \\
 0 & a_{1}^{(2)}(1-a_{1}^{(2)})
 \end{pmatrix}$~~~~~~~~
-$D^{(1)} = 
+$D^{(1)} =
 \begin{pmatrix}
 a_{0}^{(1)}(1-a_{0}^{(1)}) & 0 \\
 0 & a_{0}^{(1)}(1-a_{0}^{(1)})
 \end{pmatrix}$
 \\
-we can write $\delta^{(2)} = 
+we can write $\delta^{(2)} =
 \begin{pmatrix}
 \delta_{0}^{(2)} \\ \delta_{1}^{(2)}
 \end{pmatrix}
-= D^{(2)} \cdot c = 
+= D^{(2)} \cdot c =
 \begin{pmatrix}
 a_{0}^{(2)}(1-a_{0}^{(2)}) & 0 \\
 0 & a_{1}^{(2)}(1-a_{1}^{(2)})
 \end{pmatrix}
 \begin{pmatrix}
 a_{0}^{(2)}-T_0 \\ a_{1}^{(2)}-T_1
-\end{pmatrix} = 
+\end{pmatrix} =
 \begin{pmatrix}
 (a_0^{(2)}-T_0)a_0^{(2)}(1-a_0^{(2)}) \\ (a_1^{(2)}-T_1)a_1^{(2)}(1-a_1^{(2)})
 \end{pmatrix}$
 \\
-Then 
+Then
 \[
-D^{(1)} w^{(2)} \delta^{(2)} = 
+D^{(1)} w^{(2)} \delta^{(2)} =
 \begin{pmatrix}
 a_{0}^{(1)}(1-a_{0}^{(1)}) & 0 \\
 0 & a_{1}^{(1)}(1-a_{1}^{(1)})
@@ -279,30 +295,30 @@ w_{00}^{(2)} & w_{01}^{(2)} \\ w_{10}^{(2)} & w_{11}^{(2)}
 \end{pmatrix}
 \]
 \[
-= 
+=
 \begin{pmatrix}
 w_{00}^{(2)} a_{0}^{(1)}(1-a_{0}^{(1)}) & w_{10}^{(2)} a_{0}^{(1)}(1-a_{0}^{(1)}) \\
 w_{01}^{(2)} a_{1}^{(1)}(1-a_{1}^{(1)}) & w_{11}^{(2)} a_{1}^{(1)}(1-a_{1}^{(1)})
 \end{pmatrix}
 \begin{pmatrix}
 \delta_{0}^{(2)} \\ \delta_{1}^{(2)}
-\end{pmatrix} = 
+\end{pmatrix} =
 \begin{pmatrix}
 \delta_{0}^{(2)} w_{00}^{(2)} a_{0}^{(1)}(1-a_{0}^{(1)}) + \delta_{1}^{(2)} w_{10}^{(2)} a_{0}^{(1)}(1-a_{0}^{(1)}) \\
 \delta_{0}^{(2)} w_{01}^{(2)} a_{1}^{(1)}(1-a_{1}^{(1)}) + \delta_{1}^{(2)} w_{11}^{(2)} a_{1}^{(1)}(1-a_{1}^{(1)})
 \end{pmatrix} =
 \begin{pmatrix}
-\delta_{0}^{(1)} \\ \delta_{1}^{(1)} 
+\delta_{0}^{(1)} \\ \delta_{1}^{(1)}
 \end{pmatrix} = \delta^{(1)}
 \]
 \\
-To summarise 
+To summarise
 \[
 \frac{dC}{dW^{(1)}} = \delta^{(1)} A^{(0)} = D^{(1)} w^{(2)} \delta^{(2)}  A^{(0)}
 \]
 and
 \[
-\frac{dC}{dW^{(2)}} = \delta^{(2)} A^{(1)} 
+\frac{dC}{dW^{(2)}} = \delta^{(2)} A^{(1)}
 \]
 \\
 $\delta$ is sometimes called the "error" because it tell us how much the weights have to change, and part of $\delta$ is the difference between the output and the target $(a_{0}^{(2)}-T_0)$. We also see that neurons with high values of $a$ contribute more to the change matrix, kind of like more active neurons in a biological network tend to reinforce learning in the network.
@@ -311,7 +327,7 @@ A note for implementation:
 \\
 When the network becomes bigger multiplying matrices like $D^{(1)}$ will eat up unnecessary computer cycles due to the many zeroes in diagonal matrices.
 \\
-This can be avoided by using the lesser known Hadamard product $\odot$. 
+This can be avoided by using the lesser known Hadamard product $\odot$.
 \\
 ( \url{https://en.wikipedia.org/wiki/Hadamard_product_(matrices)} )
 \\
@@ -348,15 +364,20 @@ a_{0}^{(2)}-T_0 \\ a_{1}^{(2)}-T_1
 \\
 \\
 \\
-\section{References:}
+%\section{References:}
+\begin{thebibliography}{9}
+\bibliographystyle{abbrv}
+%\bibliography{Biblio}
+\bibitem{Mazur}
 \url{https://mattmazur.com/2015/03/17/a-step-by-step-backpropagation-example/}
 \\
-\url{https://page.mi.fu-berlin.de/rojas/neural/chapter/K7.pdf}
+\bibitem{Rojas}\url{https://page.mi.fu-berlin.de/rojas/neural/chapter/K7.pdf}
 \\
-\url{http://neuralnetworksanddeeplearning.com/chap2.html}
+\bibitem{Nielsen}\url{http://neuralnetworksanddeeplearning.com/chap2.html}
 \\
-\url{http://cs231n.stanford.edu/handouts/linear-backprop.pdf}
+\bibitem{Standford}\url{http://cs231n.stanford.edu/handouts/linear-backprop.pdf}
 \\
-\url{https://sudeepraja.github.io/Neural/}
+\bibitem{Sudepraja}\url{https://sudeepraja.github.io/Neural/}
 \\
+\end{thebibliography}
 \end{document}
