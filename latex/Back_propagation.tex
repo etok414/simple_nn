@@ -156,7 +156,8 @@ $$f(\sigma) = \frac {1}{2}(\sigma-T_0)^2~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 $$g(h) = \sigma(h)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\frac{dg}{dh} = \frac{d\sigma}{dh} = \textcolor{green}{\sigma(h)(1 - \sigma(h))}$$
 $$h(w_{00}^{(2)}, w_{01}^{(2)}, w_{02}^{(2)}) = w_{00}^{(2)}a_0^{(1)}+w_{01}^{(2)}a_1^{(1)}+w_{02}^{(2)}~~~~~~~~\frac{dh}{dw_{00}^{(2)}} = \textcolor{orange}{a_0^{(1)}}$$
 By using  \eqref{eq:a02} we note that $$(\sigma - T_0) = \textcolor{darkblue}{(a_0^{(2)} - T_0)}$$ and $$\sigma(h)(1-\sigma(h)) = \textcolor{green}{a_0^{(2)}(1-a_0^{(2)})}$$
-\\ The chain rule $$\frac{dC}{dw_{00}^{(2)}} = \frac{df}{d\sigma}~\frac{d\sigma}{dh}~\frac{dh}{dw_{00}^{(2)}}$$
+\\
+The chain rule $$\frac{dC}{dw_{00}^{(2)}} = \frac{df}{d\sigma}~\frac{d\sigma}{dh}~\frac{dh}{dw_{00}^{(2)}}$$
 then gives us
 $\frac{dC}{dw_{00}^{(2)}} = \textcolor{darkblue}{(a_0^{(2)}-T_0)}~\textcolor{green}{a_0^{(2)}(1-a_0^{(2)})}~\textcolor{orange}{a_0^{(1)}} $, the first entry in the change matrix.
 \\
@@ -169,11 +170,11 @@ $$\begin{pmatrix}
 \end{pmatrix} =
 $$
 $$\begin{pmatrix}
-(a_0^{(2)}-T_0)a_0^{(2)}(1-a_0^{(2)})a_0^{(1)} & (a_0^{(2)}-T_0)a_0^{(2)}(1-a_0^{(2)})a_1^{(1)} & (a_0^{(2)}-T_0)a_0^{(2)}(1-a_0^{(2)})1
+\textcolor{darkblue}{(a_0^{(2)}-T_0)a_0^{(2)}(1-a_0^{(2)})}a_0^{(1)} & \textcolor{darkblue}{(a_0^{(2)}-T_0)a_0^{(2)}(1-a_0^{(2)})}a_1^{(1)} & \textcolor{darkblue}{(a_0^{(2)}-T_0)a_0^{(2)}(1-a_0^{(2)})}1
 \\\\
-(a_1^{(2)}-T_1)a_1^{(2)}(1-a_1^{(2)})a_0^{(1)} & (a_1^{(2)}-T_1)a_1^{(2)}(1-a_1^{(2)})a_1^{(1)} & (a_1^{(2)}-T_1)a_1^{(2)}(1-a_1^{(2)})1
+\textcolor{green}{(a_1^{(2)}-T_1)a_1^{(2)}(1-a_1^{(2)})}a_0^{(1)} & \textcolor{green}{(a_1^{(2)}-T_1)a_1^{(2)}(1-a_1^{(2)})}a_1^{(1)} & \textcolor{green}{(a_1^{(2)}-T_1)a_1^{(2)}(1-a_1^{(2)})}1
 \end{pmatrix}$$
-We note that each entry in the upper row contains $\delta_0^{(2)} = (a_0^{(2)}-T_0)a_0^{(2)}(1-a_0^{(2)})$ and that each entry in the lower row contains $\delta_1^{(2)} = (a_1^{(2)}-T_1)a_1^{(2)}(1-a_1^{(2)})$.
+We note that each entry in the upper row contains $\delta_0^{(2)} = \textcolor{darkblue}{(a_0^{(2)}-T_0)a_0^{(2)}(1-a_0^{(2)})}$ and that each entry in the lower row contains $\delta_1^{(2)} = \textcolor{green}{(a_1^{(2)}-T_1)a_1^{(2)}(1-a_1^{(2)})}$.
 \\
 \\
 Therefore the \textit{transposed} change matrix for layer (2) is $$\frac{dC}{dW^{(2)}} =
@@ -208,14 +209,19 @@ C = \frac {1}{2} \left(\sigma\left(w_{00}^{(2)}\textcolor{green}{\sigma(w_{00}^{
 We want to find $\frac{dC}{dw_{00}^{(1)}}$ and note that $w_{00}^{(1)}$ occur in both terms of \eqref{eq:C1}.
 \\
 The first term is again a composite function, just a little more complicated: $f \circ g \circ h \circ k \circ m(w_{00}^{(2)}, w_{01}^{(2)}, w_{02}^{(2)}, w_{10}^{(2)}, w_{11}^{(2)},w_{12}^{(2)})$ where $f, g$, $h$, $k$ and $m$ and their derivatives are
-$$f(\sigma) = \frac {1}{2}(\sigma-T_0)^2~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\frac{df}{d\sigma} = \textcolor{darkblue}{(\sigma-T_0)}$$
-$$g(h) = \sigma(h)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\frac{dg}{dh} = \frac{d\sigma}{dh} = \textcolor{green}{\sigma(h)(1 - \sigma(h))}$$
-$$h(w_{00}^{(2)}, w_{01}^{(2)}, w_{02}^{(2)}) = w_{00}^{(2)}a_0^{(1)}+w_{01}^{(2)}a_1^{(1)}+w_{02}^{(2)}~~~~~~~~\frac{dh}{dw_{00}^{(2)}} = \textcolor{orange}{a_0^{(1)}}$$
-$$k(m) = \sigma(m)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\frac{dk}{dm} = \frac{d\sigma}{dm} = \textcolor{blue}{\sigma(m)(1 - \sigma(m))}$$
-$$m(w_{00}^{(1)}, w_{01}^{(1)}, w_{02}^{(1)}) = w_{00}^{(1)}a_0^{(0)}+w_{01}^{(1)}a_1^{(0)}+w_{02}^{(1)}~~~~~~~~\frac{dh}{dw_{00}^{(1)}} = \textcolor{orange}{a_0^{(0)}}$$.
+$$f(\sigma) = \frac {1}{2}(\sigma-T_0)^2~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\textcolor{darkblue}{\frac{df}{d\sigma} = (\sigma-T_0)}$$
+$$g(h) = \sigma(h)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\frac{dg}{dh} = \textcolor{green}{\frac{d\sigma}{dh} = \sigma(h)(1 - \sigma(h))}$$
+$$h(w_{00}^{(2)}, w_{01}^{(2)}, w_{02}^{(2)}) = w_{00}^{(2)}\sigma(w_{00}^{(1)...})+w_{01}^{(2)}\sigma(w_{10}^{(1)...})+w_{02}^{(2)}~~~~~~~~\textcolor{orange}{\frac{dh}{d\sigma(w_{00}^{(1)...})}} = w_{00}^{(2)}$$
+$$k(m) = \sigma(m)~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\frac{dk}{dm} = \textcolor{lavender}{\frac{d\sigma}{dm} = \sigma(m)(1 - \sigma(m))}$$
+$$m(w_{00}^{(1)}, w_{01}^{(1)}, w_{02}^{(1)}) = w_{00}^{(1)}a_0^{(0)}+w_{01}^{(1)}a_1^{(0)}+w_{02}^{(1)}~~~~~~~~\textcolor{orangered}{\frac{dm}{dw_{00}^{(1)}} = a_0^{(0)}}$$.
 \\
+Using the chain rule again
+$$\frac{dC}{dw_{00}^{(1)}} = \textcolor{darkblue}{\frac{df}{d\sigma}}~\textcolor{green}{\frac{d\sigma}{dh}}~\textcolor{orange}{\frac{dh}{d\sigma}}~\textcolor{lavender}{\frac{d\sigma}{dm}}~\textcolor{orangered}{\frac{dm}{dw_{00}^{(1)}}}+\ldots$$
+and remembering that $$\textcolor{green}{\sigma(h) = a_0^{(2)}} ~\textnormal{and}~ \textcolor{lavender}{\sigma(m) = a_0^{(1)}}$$
+then gives us the first term in the first entry of the new change matrix:
+$$\frac{dC}{dw_{00}^{(1)}} = \textcolor{darkblue}{(a_0^{(2)}-T_0)}~\textcolor{green}{a_0^{(2)}(1-a_0^{(2)})}~\textcolor{orange}{w_{00}^{(2)}}~\textcolor{lavender}{a_0^{(1)}(1-a_0^{(1)})}~\textcolor{orangered}{a_0^{(0)}}+\ldots$$.
 \\
-A little work will show that
+The last term is found in the same way and a little work will show that
 $$\frac{dC}{dw_{00}^{(1)}} = (a_0^{(2)}-T_0)~a_0^{(2)}(1-a_0^{(2)})w_{00}^{(2)}~a_0^{(1)}(1-a_0^{(1)})~a_0^{(0)} + (a_1^{(2)}-T_1)~a_1^{(2)}(1-a_1^{(2)})w_{10}^{(2)}~a_0^{(1)}(1-a_0^{(1)})~a_0^{(0)}$$
 $$\frac{dC}{dw_{01}^{(1)}} = (a_0^{(2)}-T_0)~a_0^{(2)}(1-a_0^{(2)})w_{00}^{(2)}~a_0^{(1)}(1-a_0^{(1)})~a_1^{(0)} + (a_1^{(2)}-T_1)~a_1^{(2)}(1-a_1^{(2)})w_{10}^{(2)}~a_0^{(1)}(1-a_0^{(1)})~a_1^{(0)}$$
 $$\frac{dC}{dw_{02}^{(1)}} = (a_0^{(2)}-T_0)~a_0^{(2)}(1-a_0^{(2)})w_{00}^{(2)}~a_0^{(1)}(1-a_0^{(1)})\cdot 1 + (a_1^{(2)}-T_1)~a_1^{(2)}(1-a_1^{(2)})w_{10}^{(2)}~a_0^{(1)}(1-a_0^{(1)})\cdot 1$$
@@ -223,12 +229,24 @@ $$\frac{dC}{dw_{10}^{(1)}} = (a_0^{(2)}-T_0)~a_0^{(2)}(1-a_0^{(2)})w_{01}^{(2)}~
 $$\frac{dC}{dw_{11}^{(1)}} = (a_0^{(2)}-T_0)~a_1^{(2)}(1-a_1^{(2)})w_{01}^{(2)}~a_0^{(1)}(1-a_1^{(1)})~a_1^{(0)} + (a_1^{(2)}-T_1)~a_1^{(2)}(1-a_1^{(2)})w_{11}^{(2)}~a_1^{(1)}(1-a_1^{(1)})~a_1^{(0)}$$
 $$\frac{dC}{dw_{12}^{(1)}} = (a_0^{(2)}-T_0)~a_0^{(2)}(1-a_0^{(2)})w_{01}^{(2)}~a_1^{(1)}(1-a_1^{(1)})\cdot 1 + (a_1^{(2)}-T_1)~a_1^{(2)}(1-a_1^{(2)})w_{11}^{(2)}~a_1^{(1)}(1-a_1^{(1)})\cdot 1$$
 \\
-If we again use $\delta_0^{(2)} = (a_0^{(2)}-T_0)a_0^{(2)}(1-a_0^{(2)})$ and $\delta_1^{(2)} = (a_1^{(2)}-T_1)a_1^{(2)}(1-a_1^{(2)})$ we can write
-$$\frac{dC}{dw_{00}^{(1)}} = \delta_0^{(2)}w_{00}^{(2)}~a_0^{(1)}(1-a_0^{(1)})a_0^{(0)} + \delta_1^{(2)}w_{10}^{(2)}~a_0^{(1)}(1-a_0^{(1)})a_0^{(0)}$$
-and by letting $\delta_0^{(1)}=a_0^{(1)}(1-a_0^{(1)})\sum_{i=0}^{1}\delta_i^{(2)}w_{i0}^{(2)}$ we have
-$\frac{dC}{dw_{00}^{(1)}} = \delta_0^{(1)}a_0^{(0)}$
+\\
+This looks messy so let's look at the first entry $\frac{dC}{dw_{00}^{(1)}}$
+\\
+If we again use $\textcolor{green}{\delta_0^{(2)} = (a_0^{(2)}-T_0)a_0^{(2)}(1-a_0^{(2)})}$ and $\textcolor{darkblue}{\delta_1^{(2)} = (a_1^{(2)}-T_1)a_1^{(2)}(1-a_1^{(2)})}$ we can write
+$$\frac{dC}{dw_{00}^{(1)}} = \textcolor{green}{(a_0^{(2)}-T_0)~a_0^{(2)}(1-a_0^{(2)})}w_{00}^{(2)}~a_0^{(1)}(1-a_0^{(1)})~a_0^{(0)} + \textcolor{darkblue}{(a_1^{(2)}-T_1)~a_1^{(2)}(1-a_1^{(2)})}w_{10}^{(2)}~a_0^{(1)}(1-a_0^{(1)})~a_0^{(0)}$$
+as
+$$\frac{dC}{dw_{00}^{(1)}} = \textcolor{green}{\delta_0^{(2)}}w_{00}^{(2)}~a_0^{(1)}(1-a_0^{(1)})a_0^{(0)} + \textcolor{darkblue}{\delta_1^{(2)}}w_{10}^{(2)}~a_0^{(1)}(1-a_0^{(1)})a_0^{(0)}$$
+\\
+Rearranging we get
+ $$\frac{dC}{dw_{00}^{(1)}} = \left({\delta_0^{(2)}w_{00}^{(2)}~a_0^{(1)}(1-a_0^{(1)}) + \delta_1^{(2)}w_{10}^{(2)}~a_0^{(1)}(1-a_0^{(1)})}\right) a_0^{(0)}$$
+or
+ $$\frac{dC}{dw_{00}^{(1)}} = \left(\textcolor{darkblue}{a_0^{(1)}(1-a_0^{(1)}){\left({\delta_0^{(2)}w_{00}^{(2)} + \delta_1^{(2)}w_{10}^{(2)}}\right)}}\right) a_0^{(0)}$$
+\\
+By letting $\delta_0^{(1)} = \textcolor{darkblue}{a_0^{(1)}(1-a_0^{(1)}){\left({\delta_0^{(2)}w_{00}^{(2)} + \delta_1^{(2)}w_{10}^{(2)}}\right)}} = a_0^{(1)}(1-a_0^{(1)})\sum_{i=0}^{1}\delta_i^{(2)}w_{i0}^{(2)}$ we then have
+$$\frac{dC}{dw_{00}^{(1)}} = \delta_0^{(1)}a_0^{(0)}$$
 \\
 With $\delta_1^{(1)}=a_1^{(1)}(1-a_1^{(1)})\sum_{i=0}^{1}\delta_i^{(2)}w_{i1}^{(2)}$ the transposed change matrix for layer (1) is
+\\
 $$\frac{dC}{dW^{(1)}} =
 \begin{pmatrix}
 \frac{dC}{dw_{00}^{(1)}} & \frac{dC}{dw_{01}^{(1)}} & \frac{dC}{dw_{02}^{(1)}}
@@ -239,6 +257,7 @@ $$\frac{dC}{dW^{(1)}} =
 \\\\
 \delta_1^{(1)}a_0^{(0)} & \delta_1^{(1)}a_1^{(0)} & \delta_1^{(2)} \cdot 1
 \end{pmatrix} = \delta^{(1)}A^{(0)}$$
+\\
 where $\delta^{(1)}=\binom{\delta_0^{(1)}}{\delta_1^{(1)}}$ and $A^{(0)}=(a_{0}^{(0)} a_{1}^{(0)} 1)$.
 \\
 \\
@@ -264,6 +283,8 @@ a_{0}^{(1)}(1-a_{0}^{(1)}) & 0 \\
 0 & a_{0}^{(1)}(1-a_{0}^{(1)})
 \end{pmatrix}$
 \\
+\\
+\\
 we can write $\delta^{(2)} =
 \begin{pmatrix}
 \delta_{0}^{(2)} \\ \delta_{1}^{(2)}
@@ -279,6 +300,8 @@ a_{0}^{(2)}-T_0 \\ a_{1}^{(2)}-T_1
 \begin{pmatrix}
 (a_0^{(2)}-T_0)a_0^{(2)}(1-a_0^{(2)}) \\ (a_1^{(2)}-T_1)a_1^{(2)}(1-a_1^{(2)})
 \end{pmatrix}$
+\\
+\\
 \\
 Then
 \[
@@ -312,6 +335,7 @@ w_{01}^{(2)} a_{1}^{(1)}(1-a_{1}^{(1)}) & w_{11}^{(2)} a_{1}^{(1)}(1-a_{1}^{(1)}
 \end{pmatrix} = \delta^{(1)}
 \]
 \\
+\\
 To summarise
 \[
 \frac{dC}{dW^{(1)}} = \delta^{(1)} A^{(0)} = D^{(1)} w^{(2)} \delta^{(2)}  A^{(0)}
@@ -323,7 +347,8 @@ and
 \\
 $\delta$ is sometimes called the "error" because it tell us how much the weights have to change, and part of $\delta$ is the difference between the output and the target $(a_{0}^{(2)}-T_0)$. We also see that neurons with high values of $a$ contribute more to the change matrix, kind of like more active neurons in a biological network tend to reinforce learning in the network.
 \\
-A note for implementation:
+\\
+\textbf{A note for implementation:}
 \\
 When the network becomes bigger multiplying matrices like $D^{(1)}$ will eat up unnecessary computer cycles due to the many zeroes in diagonal matrices.
 \\
@@ -359,11 +384,6 @@ a_{0}^{(2)}-T_0 \\ a_{1}^{(2)}-T_1
 (a_0^{(2)}-T_0)a_0^{(2)}(1-a_0^{(2)}) \\ (a_1^{(2)}-T_1)a_1^{(2)}(1-a_1^{(2)})
 \end{pmatrix}
 \]
-\\
-\\
-\\
-\\
-\\
 %\section{References:}
 \begin{thebibliography}{9}
 \bibliographystyle{abbrv}
